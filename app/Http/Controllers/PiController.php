@@ -35,15 +35,8 @@ class PiController extends Controller
 
         return view('pi.list')->with(compact('pis'));
     }
-    
-    // public function index(Pi $model)
-    // {
 
-    //     $returnPi = $model->with('predios')->with('user')->with('empreiteiras')->get();
-    //     $pis = $returnPi->toArray();
 
-    //     return view('pi.list')->with(compact('pis'));
-    // }
 
     public function store(Pi $model, Users $users, Empreiteiras $empreiteiras, Programas $programas, Request $request)
     {

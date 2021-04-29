@@ -68,9 +68,8 @@ Route::group(['middleware' => 'auth'], function () {
     //Obras
 
         //cadastro
-    Route::get('abertura-obras/', ['as' => 'abertura.create', 'uses' => 'App\Http\Controllers\VistoriaController@abertura']);
-
-    Route::post('vistorias/obras/create', ['as' => 'obras.vistoria.create', 'uses' => 'App\Http\Controllers\CadastroVistoriaController@store']);
+    Route::get('vistorias', ['as' => 'vistorias.store', 'uses' => 'App\Http\Controllers\VistoriaController@index'])->name('vistorias.cadastro');
+    //Route::post('vistorias/obras/create', ['as' => 'obras.vistoria.create', 'uses' => 'App\Http\Controllers\CadastroVistoriaController@store']);
 
         //List
     Route::get('vistorias/obras/list', ['as' => 'obras.list', 'uses' => 'App\Http\Controllers\PrediosController@index']);

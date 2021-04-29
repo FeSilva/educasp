@@ -63,9 +63,9 @@
             </li>
             @endif
             <li
-                class="{{ $elementActive == 'vistoria' || $elementActive == 'abertura' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' ? 'active' : '' }}">
+                class="{{ $elementActive == 'vistoria' || $elementActive == 'vistorias' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' ? 'active' : '' }}">
                 @php
-                    $elementActive == 'vistoria' || $elementActive == 'abertura' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' ? ($show = 'show') : ($show = '');
+                    $elementActive == 'vistoria' || $elementActive == 'vistorias' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' ? ($show = 'show') : ($show = '');
                 @endphp
                 <a data-toggle="collapse" aria-expanded="false" href="#vistorias">
                     <i class="nc-icon nc-single-copy-04"></i>
@@ -73,12 +73,12 @@
                 </a>
                 <div class="collapse {{ $show }}" id="vistorias">
                     <ul class="nav">
-                        <li class="{{ $elementActive == 'vistoria' ? 'active' : '' }}">
+                        <li class="{{ $elementActive == 'vistorias' ? 'active' : '' }}">
                             <ul class="nav">
 
-                                <li class="{{ $elementActive == 'abertura' ? 'active' : '' }}">
-                                    <a href="{{ route('page.index', 'pi') }}">
-                                        <span class="sidebar-normal">{{ __(' - PI') }}</span>
+                                <li class="{{ $elementActive == 'vistorias' ? 'active' : '' }}">
+                                    <a href="{{ route('page.index', 'vistorias') }}">
+                                        <span class="sidebar-normal">{{ __(' - Cadastro de Vistoria ') }}</span>
                                     </a>
                                 </li>
                                             <!--<li class="{{ $elementActive == 'especificas' ? 'active' : '' }}">
