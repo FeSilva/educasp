@@ -1,0 +1,220 @@
+<div class="sidebar" data-color="white" data-active-color="danger">
+    <div class="logo">
+
+        <a href="" class="simple-text logo-normal">
+            {{ __('Educa SP') }}
+        </a>
+    </div>
+    <div class="sidebar-wrapper">
+        <ul class="nav">
+            {{-- Validar active de link --}}
+            <li class="{{ $elementActive == 'dashboard' ? 'active' : '' }}">
+                <a href="{{ route('page.index', 'dashboard') }}">
+                    <i class="nc-icon nc-bank"></i>
+                    <p>{{ __('Dashboard') }}</p>
+                </a>
+            </li>
+            @if(Auth()->user()->grupo == 'gestor' || Auth()->user()->grupo == 'analista')
+            <li
+                class="{{ $elementActive == 'user' || $elementActive == 'usuarios' || $elementActive == 'predios' || $elementActive == 'pi' || $elementActive == 'empreiteiras' ? 'active' : '' }}">
+
+                @php
+                    $elementActive == 'user' || $elementActive == 'usuarios' || $elementActive == 'predios' || $elementActive == 'pi' || $elementActive == 'empreiteiras' ? ($show = 'show') : ($show = '');
+                @endphp
+                <a data-toggle="collapse" aria-expanded="false" href="#parametros">
+                    <i class="nc-icon nc-badge"></i>
+                    <p>{{ __('Paramêtros') }}<b class="caret"></b></p>
+                </a>
+                <div class="collapse {{ $show }}" id="parametros">
+                    <ul class="nav">
+
+                        <li class="{{ $elementActive == 'usuarios' ? 'active' : '' }}">
+                            <a href="{{ route('page.index', 'usuarios') }}">
+
+                                <span class="sidebar-normal">{{ __(' - Usuários') }}</span>
+                            </a>
+                        </li>
+
+                        <li class="{{ $elementActive == 'predios' ? 'active' : '' }}">
+                            <a href="{{ route('page.index', 'predios') }}">
+                                <span class="sidebar-normal">{{ __(' - Prédios') }}</span>
+                            </a>
+                        </li>
+
+                        <li class="{{ $elementActive == 'empreiteiras' ? 'active' : '' }}">
+                            <a href="{{ route('page.index', 'empreiteiras') }}">
+                                <span class="sidebar-normal">{{ __(' - Empreiteiras') }}</span>
+                            </a>
+                        </li>
+
+                        <li class="{{ $elementActive == 'pi' ? 'active' : '' }}">
+                            <a href="{{ route('page.index', 'pi') }}">
+                                <span class="sidebar-normal">{{ __(' - PI') }}</span>
+                            </a>
+                        </li>
+
+                        {{-- <li class="{{ $elementActive == 'acesso' ? 'active' : '' }}">
+                            <a href="{{ route('page.index', 'user') }}">
+                                <span class="sidebar-normal">{{ __('Controle de Acesso ') }}</span>
+                            </a>
+                        </li> --}}
+                    </ul>
+                </div>
+            </li>
+            @endif
+            <li
+                class="{{ $elementActive == 'vistoria' || $elementActive == 'abertura' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' ? 'active' : '' }}">
+                @php
+                    $elementActive == 'vistoria' || $elementActive == 'abertura' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' ? ($show = 'show') : ($show = '');
+                @endphp
+                <a data-toggle="collapse" aria-expanded="false" href="#vistorias">
+                    <i class="nc-icon nc-single-copy-04"></i>
+                    <p>{{ __('Vistorias') }}<b class="caret"></b></p>
+                </a>
+                <div class="collapse {{ $show }}" id="vistorias">
+                    <ul class="nav">
+                        <li class="{{ $elementActive == 'vistoria' ? 'active' : '' }}">
+                            <ul class="nav">
+
+                                <li class="{{ $elementActive == 'abertura' ? 'active' : '' }}">
+                                    <a href="{{ route('page.index', 'pi') }}">
+                                        <span class="sidebar-normal">{{ __(' - PI') }}</span>
+                                    </a>
+                                </li>
+                                            <!--<li class="{{ $elementActive == 'especificas' ? 'active' : '' }}">
+                                                <a href="">
+                                                    <span class="sidebar-normal">{{ __(' - Lista de Envio') }}</span>
+                                                </a>
+                                            </li>
+                                            <li class="{{ $elementActive == 'cadastro-pi' ? 'active' : '' }}">
+                                                <a href="">
+                                                    <span class="sidebar-normal">{{ __(' - Gerência') }}</span>
+                                                </a>
+                                            </li>-->
+                            </ul>
+                        </li>
+                        <!--<li class="{{ $elementActive == 'especificas' ? 'active' : '' }}">
+                            @php
+                                $elementActive == 'vistoria' || $elementActive == 'obras' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' ? ($show = 'show') : ($show = '');
+                            @endphp
+                            <ul class="nav">
+                                <li class="{{ $elementActive == 'especificas' }}">
+                                    <a data-toggle="collapse" aria-expanded="false" href="#especificas">
+
+                                        <p>{{ __('Especificas') }}<b class="caret"></b></p>
+                                    </a>
+                                    <div class="collapse {{ $show }}" id="especificas">
+                                        <ul class="nav">
+                                            <li class="{{ $elementActive == 'obras' ? 'active' : '' }}">
+                                                <a href="">
+                                                    <span
+                                                        class="sidebar-normal">{{ __(' - Cadastro de abertura') }}</span>
+                                                </a>
+                                            </li>
+                                            <li class="{{ $elementActive == 'especificas' ? 'active' : '' }}">
+                                                <a href="">
+                                                    <span class="sidebar-normal">{{ __(' - Envio') }}</span>
+                                                </a>
+                                            </li>
+                                            <li class="{{ $elementActive == 'especificas' ? 'active' : '' }}">
+                                                <a href="">
+                                                    <span class="sidebar-normal">{{ __(' - Aprovação') }}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>-->
+                    </ul>
+                </div>
+            </li>
+
+
+
+
+
+            <li class="{{ $elementActive == 'user' || $elementActive == 'profile' ? ($show = 'show') : ($show = '') }}">
+                <a data-toggle="collapse" aria-expanded="false" href="#configuracao">
+                    <i class="nc-icon nc-settings-gear-65"></i>
+                    <p>{{ __('Configurações') }}<b class="caret"></b></p>
+                </a>
+                <div class="collapse {{ $show }}" id="configuracao">
+                    <ul class="nav">
+                        <li class="{{ $elementActive == 'profile' ? 'active' : '' }}">
+                            <a href="{{ route('usuarios.perfil') }}">
+
+                                <span class="sidebar-normal">{{ __('Perfil') }}</span>
+                            </a>
+                        </li>
+                        <li class="{{ $elementActive == 'user' ? 'active' : '' }}">
+                            <form action="{{ route('logout') }}" id="formLogOut" method="POST"
+                                style="display: none;">
+                                @csrf
+                            </form>
+
+                            <a href="#" onclick="document.getElementById('formLogOut').submit();">
+                                {{ __('Sair') }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+{{--
+            <li class="{{ $elementActive == 'user' ? 'active' : '' }}">
+
+
+                <form action="{{ route('logout') }}" id="formLogOut" method="POST"
+                    style="display: none;">
+                    @csrf
+                </form>
+
+                <a href="#" onclick="document.getElementById('formLogOut').submit();">
+                    <i class="nc-icon nc-settings-gear-65"></i>
+                    {{ __('Sair') }}
+                </a>
+            </li> --}}
+
+
+
+
+
+            {{-- <li class="{{ $elementActive == 'icons' ? 'active' : '' }}">
+                <a href="{{ route('page.index', 'icons') }}">
+                    <i class="nc-icon nc-diamond"></i>
+                    <p>{{ __('Icons') }}</p>
+                </a>
+            </li>
+            <li class="{{ $elementActive == 'map' ? 'active' : '' }}">
+                <a href="{{ route('page.index', 'map') }}">
+                    <i class="nc-icon nc-pin-3"></i>
+                    <p>{{ __('Maps') }}</p>
+                </a>
+            </li>
+            <li class="{{ $elementActive == 'notifications' ? 'active' : '' }}">
+                <a href="{{ route('page.index', 'notifications') }}">
+                    <i class="nc-icon nc-bell-55"></i>
+                    <p>{{ __('Notifications') }}</p>
+                </a>
+            </li>
+            <li class="{{ $elementActive == 'tables' ? 'active' : '' }}">
+                <a href="{{ route('page.index', 'tables') }}">
+                    <i class="nc-icon nc-tile-56"></i>
+                    <p>{{ __('Table List') }}</p>
+                </a>
+            </li>
+            <li class="{{ $elementActive == 'typography' ? 'active' : '' }}">
+                <a href="{{ route('page.index', 'typography') }}">
+                    <i class="nc-icon nc-caps-small"></i>
+                    <p>{{ __('Typography') }}</p>
+                </a>
+            </li>
+            <li class="active-pro {{ $elementActive == 'upgrade' ? 'active' : '' }}">
+                <a href="{{ route('page.index', 'upgrade') }}" class="bg-danger">
+                    <i class="nc-icon nc-spaceship text-white"></i>
+                    <p class="text-white">{{ __('Upgrade to PRO') }}</p>
+                </a>
+            </li> --}}
+        </ul>
+    </div>
+</div>
