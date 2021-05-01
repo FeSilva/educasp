@@ -4,139 +4,98 @@
 ])
 
 @section('content')
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+    @component('components._breadcrumb')
+        @slot('list')
             <li class="breadcrumb-item"><a href="#">Paramêtros</a></li>
             <li class="breadcrumb-item"><a href="{{ Route("predios.list") }}">Prédios</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ empty($predios['codigo']) ? 'Cadastro de Prédios' : 'Editar Cadastro de Prédio' }}</li>
-        </ol>
-    </nav>
+        @endslot
+    @endcomponent
 
-    @if (session()->has('success'))
-        <div class="col-md-12">
-            <div class="alert alert-success alert-dismissible fade show">
-                <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-                    <i class="nc-icon nc-simple-remove"></i>
-                </button>
-                <span><b> Sucesso:</b> {{ session('success') }}</span>
-            </div>
-        </div>
+    @component('components.messages._messages')@endcomponent
 
-    @endif
+    @component('components._content')
+        @slot('slot')
+            @component('components._card')
+                @slot('body')
+                    @component('components._form',[
+                        'method' => 'POST',
+                        'action' => '#',
+                        'attributes' => 'enctype=multipart/form-data'
+                    ])
+                        @slot('slot')
+                            <div class="row">
+                                @component('components._input', [
+                                    'size' => '4',
+                                    'type' => 'text',
+                                    'label' => 'Código PI:',
+                                    'name' => 'codigo',
+                                    'id' => 'codigo'
+                                ])
+                                @endcomponent
 
-
-    @if (session()->has('error'))
-        <div class="col-md-12">
-            <div class="alert alert-danger alert-dismissible fade show">
-                <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-                    <i class="nc-icon nc-simple-remove"></i>
-                </button>
-                <span><b> Atenção !:</b> {{ session('error') }}</span>
-            </div>
-        </div>
-    @endif
-
-
-    <div class="content">
-        <div class="row">
-            <form class="col-md-12" action="" method="POST">
-                <input name="_token" type="hidden" value="{{ csrf_token() }}" />
-                <input type="hidden" name="id_user" id="id_user" value="{{ Auth::id() }}" />
-                <input type="hidden" name="id" id="id" value="">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="title">
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label class="col-md- col-form-label">Código Pi <span style="color:red;">*</span></label>
-
-                                <div class="form-group">
-                                    <input type="text" name="codigo" id="codigo"
-                                           class="form-control"
-                                           value="">
-
-                                </div>
+                                @component('components._input', [
+                                    'size' => '4',
+                                    'type' => 'text',
+                                    'label' => 'Prédio:',
+                                    'name' => 'predio',
+                                    'id' => 'predio',
+                                    'class' => 'input-escondido',
+                                    'attributes' => 'readonly'
+                                ])
+                                @endcomponent
+                    
+                                @component('components._input', [
+                                    'size' => '4',
+                                    'type' => 'text',
+                                    'label' => 'Nome:',
+                                    'name' => 'nome',
+                                    'id' => 'nome',
+                                    'class' => 'input-escondido',
+                                    'attributes' => 'readonly'
+                                ])
+                                @endcomponent
                             </div>
 
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label class="col-md- col-form-label">Código Prédio <span style="color:red;">*</span></label>
+                            <div class="row">
+                                @component('components._select',[
+                                    'size' => '4',
+                                    'label' => 'Tipo Vistoria: ',
+                                    'name' => 'tipo_vistoria',
+                                    'id' => 'tipo_vistoria'
+                                ])
+                                    @slot('options')
+                                        @foreach($vistoriaTipos as $tipo)
+                                            <option value="{{ $tipo->id }}">{{ $tipo->name }}</option>
+                                        @endforeach
+                                    @endslot
+                                @endcomponent
 
-                                <div class="form-group">
-                                    <!-- Código -->
+                                @component('components._input',[
+                                    'size' => '4',
+                                    'type' => 'date',
+                                    'label' => 'Data de Abertura: ',
+                                    'name' => 'data_abertura',
+                                    'id' => 'data_abertura'
+                                ])
+                                @endcomponent
 
-                                </div>
+                                @component('components._input',[
+                                    'size' => '4',
+                                    'type' => 'file',
+                                    'label' => 'Arquivo: ',
+                                    'name' => 'arquivo_folha',
+                                    'id' => 'arquivo_folha'
+                                ])
+                                @endcomponent
                             </div>
-                            <div class="col-md-4">
-                                <label class="col-md- col-form-label">Nome do Prédio <span style="color:red;">*</span></label>
-
-                                <div class="form-group">
-                                    <!-- Nome do Predio -->
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="col-md- col-form-label">Diretoria<span style="color:red;">*</span></label>
-
-                                <div class="form-group">
-                                    <!-- Diretoria -->
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="title">
-                        </h5>
-                    </div>
-                    <div class="card-body">
-
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label class="col-md- col-form-label">Tipo de Vistoria<span style="color:red;">*</span></label>
-
-                                <div class="form-group">
-                                    <input type="text" name="tipoVistoria" id="tipoVistoria"
-                                           class="form-control"
-                                           value="">
-
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="col-md- col-form-label">Data de Abertura <span style="color:red;">*</span></label>
-
-                                <div class="form-group">
-                                    <input type="date" name="dt_abertura_pi" id="dt_abertura_pi"
-                                           class="form-control"
-                                           value="">
-
-                                </div><div class="form-group">
-                                    <!-- Nome do Predio -->
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="col-md- col-form-label">Anexo da Folha de abertura<span style="color:red;">*</span></label>
-
-                                <div class="form-group">
-
-                                    <input type="file" class="form-control-file" id="exampleFormControlFile1" style="background-color: #5e5e5e;">
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+                            @component('components.buttons._submit')@endcomponent
+                        @endslot
+                    @endcomponent
+                @endslot
+            @endcomponent
+        @endslot
+    @endcomponent
 @endsection
 
 @push('scripts')

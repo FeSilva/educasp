@@ -66,9 +66,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('empreiteiras/delete/{id}', ['as' => 'empreiteiras.delete', 'uses' => 'App\Http\Controllers\EmpreiteirasController@delete']);
 
     //Obras
-
-        //cadastro
-    Route::get('vistorias', ['as' => 'vistorias.store', 'uses' => 'App\Http\Controllers\VistoriaController@index'])->name('vistorias.cadastro');
+    Route::prefix('vistorias')->namespace('App\Http\Controllers')->group(function() {
+        Route::get('/', 'VistoriaController@index')->name('vistorias.cadastro');
+        Route::get('/getpi', 'VistoriaController@getPi')->name('vistorias.getpi');
+    });
     //Route::post('vistorias/obras/create', ['as' => 'obras.vistoria.create', 'uses' => 'App\Http\Controllers\CadastroVistoriaController@store']);
 
         //List

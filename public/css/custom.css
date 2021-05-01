@@ -1,0 +1,15 @@
+.input-escondido, .input-escondido:focus, .input-escondido:active {
+    border: transparent;
+    outline: transparent;
+    cursor: not-allowed;
+    background: #FFF !important;
+}
+
+select.form-control:not([size]):not([multiple]) {
+    height: 42px;
+}
+
+.form-group input[type=file] {
+    opacity: 1;
+    height: 42px;
+}
