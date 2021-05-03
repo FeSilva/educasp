@@ -630,7 +630,7 @@
                         'X-CSRF-Token': $('input[name="_token"]').val()
                     },
                     type: 'POST',
-                    url: "/carrega/predio",
+                    url: "/carrega/pi",
                     data: 'codigoPredio=' + $(this).val(),
                     success: function(data) {
                         // $(location).attr('href', "{{ URL::to(Request::path()) }}");
@@ -641,13 +641,13 @@
 
                     },
                     error: function() {
-                        alert('Por favor informe um código de prédio valido.');
+                        alert('Por favor informe um código de processo de intervenção valido..');
                     }
                 });
             });
 
             //MASK
-            $('#codigo').mask('0000 / 00000');
+            $('#codigo').mask('0000/00000');
             $('#codigo_predio').mask('00.00.000');
             $('#valor_total').mask('#.##0,00', {
                 reverse: true

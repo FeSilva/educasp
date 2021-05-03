@@ -91,7 +91,7 @@ Route::group(['middleware' => 'auth'], function () {
     //Rotas de Pesquisa
     Route::post('/carrega/predio','App\Http\Controllers\CarregaController@predios')->name('carrega.predio');
     Route::post('/carrega/empreiteiras','App\Http\Controllers\CarregaController@empreiteiras')->name('carrega.empreiteiras');
-
+    Route::post('/carrega/pi','App\Http\Controllers\CarregaController@processoIntervencao')->name('carrega.pi');
 
     //End Rotas de pesquisa
 
