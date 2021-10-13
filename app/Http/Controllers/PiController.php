@@ -97,6 +97,7 @@ class PiController extends Controller
                 'programa'    => $pi[0]['programa'],
                 'objeto_pi'    => $pi[0]['objeto_pi'],
                 'descricao' => $pi[0]['descricao'],
+                'rv'        => $pi[0]['rv'],
                 'predios' => [
                     'codigo' => $pi[0]['predios'][0]['codigo'],
                     'name_predio' => $pi[0]['predios'][0]['name'],
@@ -120,6 +121,7 @@ class PiController extends Controller
                 'valor_total' => '',
                 'prazo_total' => '',
                 'descricao' => '',
+                'rv'        => '',
                 'predios' => [
                     'codigo' => '',
                     'name_predio' => '',
@@ -135,7 +137,6 @@ class PiController extends Controller
                     'dt_abertura' => '',
                     'prazo' => '',
                     'descricao_item' => '',
-
                 ],
             ];
         }

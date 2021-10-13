@@ -18,7 +18,11 @@ class EmpreiteirasController extends Controller
             return Datatables::of($returnEmpreiteiras)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('empreiteiras.store', ['id' => $row->id]) . '" class="btn btn-primary">Editar</a> <a onclick="deleteEmpreiteiras(' . $row->id . ')" class="btn btn-warning">Desativar</a>';
+                    $btn = '<a href="' . route('empreiteiras.store', ['id' => $row->id]) . '">
+                         <img src="'.asset("paper").'/img/icons/edit.png" width="30px">
+                    </a> 
+                     <a onclick="deleteEmpreiteiras(' . $row->id . ')"><img src="'.asset("paper").'/img/icons/excluir.png" width="20px"  onclick="deleteEmpreiteiras($row->id)">
+                    </a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

@@ -71,6 +71,7 @@ class UserController extends Controller
                 'grupo' => $usuario['grupo'],
                 'celular' => $usuario['celular'],
                 'observacoes'    => $usuario['obs'],
+                'cod_user_fde' => $usuario['cod_user_fde'],
                 'ativo'             => $usuario['ativo']
             ];
 
@@ -84,6 +85,7 @@ class UserController extends Controller
                 'email' => '',
                 'grupo' => '',
                 'celular' => '',
+                'cod_user_fde' => '',
                 'observacoes'    => '',
                 'ativo'          => ''
             ];
@@ -145,7 +147,7 @@ class UserController extends Controller
             $model->deleteUser($id);
             return redirect()
                     ->back()
-                    ->with('success', 'Usuário Deletado');
+                    ->with('success', 'Usuário Desativado');
         }catch(\Exception $e){
             return redirect()
             ->back()

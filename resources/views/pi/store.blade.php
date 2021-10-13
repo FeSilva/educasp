@@ -13,8 +13,6 @@
         </ol>
     </nav>
 
-
-
     @if (session()->has('success'))
         <div class="col-md-12">
             <div class="alert alert-success alert-dismissible fade show">
@@ -68,8 +66,21 @@
 
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <label class="col-md- col-form-label">RV</label>
 
+                                <div class="form-group">
+                                    <input type="text" name="rv" id="rv"
+                                           class="form-control @error('rv') is-invalid @enderror" placeholder=""
+                                           value="{{ old('rv', $pi['rv']) }}">
 
+                                    @error('codigo')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
 
@@ -577,7 +588,7 @@
 
 
                                     </div>
-                                    <di class="col-md-4">
+                                    <div class="col-md-4">
                                         <label class="col-md- col-form-label">Prazo</label>
 
                                         <div class="form-group">
@@ -591,7 +602,7 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                    </di>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -620,6 +631,14 @@
     </div>
 @endsection
 
+@if (!empty($errors->all()))
+    @push('scripts')
+        <script>
+            $('#modalCreate').modal('show');
+        </script>
+    @endpush
+@endif
+
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
@@ -630,7 +649,7 @@
                         'X-CSRF-Token': $('input[name="_token"]').val()
                     },
                     type: 'POST',
-                    url: "/carrega/pi",
+                    url: "/carrega/predio",
                     data: 'codigoPredio=' + $(this).val(),
                     success: function(data) {
                         // $(location).attr('href', "{{ URL::to(Request::path()) }}");
@@ -641,7 +660,7 @@
 
                     },
                     error: function() {
-                        alert('Por favor informe um código de processo de intervenção valido..');
+                        alert('Por favor informe um código de Prédio valido..');
                     }
                 });
             });

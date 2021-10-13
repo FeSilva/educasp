@@ -20,7 +20,11 @@ class PrediosController extends Controller
             return Datatables::of($returnPredios)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('predios.store', ['id' => $row->id]) . '" class="btn btn-primary">Editar</a> <a onclick="deletePredios(' . $row->id . ')" class="btn btn-warning">Desativar</a>';
+                    $btn = '<a href="' . route('predios.store', ['id' => $row->id]) . '"> 
+                                                <img src="'.asset("paper").'/img/icons/edit.png" width="30px">
+                                            </a> 
+                                            <a onclick="deletePredios(' . $row->id . ')"><img src="'.asset("paper").'/img/icons/excluir.png" width="20px"  onclick="deleteUser($usuario[id])">
+</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

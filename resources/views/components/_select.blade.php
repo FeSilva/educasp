@@ -5,4 +5,9 @@
             {{ $options }}
         </select>
     </div>
+    @if($errors->has($name))
+        <div class="invalid-feedback" style="display: block;">
+            {{ $errors->first($name) }}
+        </div>
+    @endif
 </div>

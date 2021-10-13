@@ -50,7 +50,7 @@ class Empreiteiras extends Model
             // 'bairro' => $info['bairro'],
             'telefone_opcional' => $info['telefone_opcional'],
             'email_opcional' => $info['email_opcional'],
-            'nome_contato_opcional' => $info['nome_conome_contato_opcionalntato'],
+            'nome_contato_opcional' => $info['nome_contato_opcional'],
             'telefone' => $info['telefone'],
             'email' => $info['email'],
             'nome_contato' => $info['nome_contato'],

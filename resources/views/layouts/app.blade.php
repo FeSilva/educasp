@@ -1,21 +1,3 @@
-<!--
-=========================================================
- Paper Dashboard - v2.0.0
-=========================================================
-
- Product Page: https://www.creative-tim.com/product/paper-dashboard
- Copyright 2019 Creative Tim (https://www.creative-tim.com)
- UPDIVISION (https://updivision.com)
- Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard/blob/master/LICENSE)
-
- Coded by Creative Tim
-
-=========================================================
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,6 +23,8 @@ The above copyright notice and this permission notice shall be included in all c
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{ asset('paper') }}/demo/demo.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
+    @stack('styles')
 
 </head>
 

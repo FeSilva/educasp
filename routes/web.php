@@ -24,8 +24,10 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
     //Home / Dashboard
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+
 
     //PARAMÊTROS
 
@@ -60,42 +62,138 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('items/delete/{id}/{id_pi}', ['as' => 'items.delete', 'uses' => 'App\Http\Controllers\ItemController@delete']);
 
     //Empreiteiras
-    Route::get('empreiteiras', ['as' => 'empreiteiras.list', 'uses' => 'App\Http\Controllers\EmpreiteirasController@index']);
-    Route::get('empreiteiras/cadastro', ['as' => 'empreiteiras.store', 'uses' => 'App\Http\Controllers\EmpreiteirasController@store']);
-    Route::post('empreiteiras/create', ['as' => 'empreiteiras.create', 'uses' => 'App\Http\Controllers\EmpreiteirasController@create']);
-    Route::get('empreiteiras/delete/{id}', ['as' => 'empreiteiras.delete', 'uses' => 'App\Http\Controllers\EmpreiteirasController@delete']);
+    Route::prefix('empreiteiras')->namespace('App\Http\Controllers')->group(function() {
+        Route::get('/', 'EmpreiteirasController@index')->name('empreiteiras.list');
+        Route::get('/cadastro', 'EmpreiteirasController@store')->name('empreiteiras.store');
+        Route::post('/create', 'EmpreiteirasController@create')->name('empreiteiras.create');
+        Route::get('/delete/{id}', 'EmpreiteirasController@delete')->name('empreiteiras.delete');
+    });
+
 
     //Obras
     Route::prefix('vistorias')->namespace('App\Http\Controllers')->group(function() {
-        Route::get('/', 'VistoriaController@index')->name('vistorias.cadastro');
-        Route::get('/getpi', 'VistoriaController@getPi')->name('vistorias.getpi');
+        Route::get('/', 'VistoriaController@index')->name('vistorias.list');
+        Route::get('/cadastro', 'VistoriaController@store')->name('vistorias.store');
+        Route::post('/store', 'VistoriaController@create')->name('vistorias.create');
+        Route::get('/excluir', 'VistoriaController@excluir')->name('vistorias.excluir');
+        Route::post('/donwload','VistoriaController@download')->name('downloadAnexoVistoria');
+        Route::post('/validateDate', 'VistoriaController@validateDate')->name('validateDate');
+
+        Route::get('/storage/{filename}', function ($filename)
+        {
+            $path = storage_path('app/public/' . $filename);
+            if (!File::exists($path)) {
+                abort(404);
+            }
+            $file = File::get($path);
+            $type = File::mimeType($path);
+            $response = Response::make($file, 200);
+            $response->header("Content-Type", $type);
+            return $response;
+        });
+
     });
-    //Route::post('vistorias/obras/create', ['as' => 'obras.vistoria.create', 'uses' => 'App\Http\Controllers\CadastroVistoriaController@store']);
-
-        //List
-    Route::get('vistorias/obras/list', ['as' => 'obras.list', 'uses' => 'App\Http\Controllers\PrediosController@index']);
-    Route::post('vistorias/obras/list/create', ['as' => 'obras.store', 'uses' => 'App\Http\Controllers\PrediosController@store']);
-
-        //Gerencial
-    // Route::get('vistorias/obras/list', ['as' => 'obras.list', 'uses' => 'App\Http\Controllers\PrediosController@index']);
-    // Route::post('vistorias/obras/list/create', ['as' => 'obras.store', 'uses' => 'App\Http\Controllers\PrediosController@store']);
+    Route::prefix('vistorias/multiplas')->namespace('App\Http\Controllers')->group(function() {
+        Route::get('/', 'VistoriaMutiplasController@index')->name('multiplas.list');
+        Route::get('/store', 'VistoriaMutiplasController@store')->name('multiplas.store');
+        Route::get('/edit', 'VistoriaMutiplasController@store')->name('multiplas.edit');
+        Route::post('/create', 'VistoriaMutiplasController@create')->name('multiplas.create');
+        Route::get('/excluir', 'VistoriaMutiplasController@excluir')->name('multiplas.excluir');
 
 
+    });
 
-    //END PARAMÊTROS
 
-    //OBRAS
+    Route::prefix('ziparchive')->namespace('App\Http\Controllers')->group(function(){
+        Route::get('/', 'ZipArchiveController@index')->name('zipArchive.index');
+        Route::post('/descompact','ZipArchiveController@descompactZip')->name('zipArchive.descompact');
+    });
 
-    //ENDOBRAS
+    Route::prefix('ziparchive/multiplos')->namespace('App\Http\Controllers')->group(function(){
+        Route::get('/', 'ZipArchiveMultiplosController@index')->name('zipArchiveMultiplos.index');
+        Route::post('/descompact','ZipArchiveMultiplosController@descompactZip')->name('zipArchiveMultiplos.descompact');
+    });
+
+    Route::prefix('listaenvios')->namespace('App\Http\Controllers')->group(function() {
+        Route::get('/', 'ListaEnvioController@index')->name('listaenvios.index');
+        Route::get('/create', 'ListaEnvioController@create')->name('listaenvios.create');
+        Route::get('/store/{id}', 'ListaEnvioController@store')->name('listaenvios.store');
+
+        Route::post('/', 'ListaEnvioController@carregar')->name('listaenvios.carregar');
+        Route::post('/enviaremail', 'ListaEnvioController@enviarEmail')->name('listaenvios.enviaremail');
+        Route::post('/consultaMes', 'ListaEnvioController@consultaMes')->name('listaenvios.consultaMes');
+
+        Route::get('/viewEmail','ListaEnvioController@viewEmail')->name('listaenvios.viewEmail');
+    });
+
+    Route::prefix('listaenviosMultiplos')->namespace('App\Http\Controllers')->group(function() {
+        Route::get('/', 'ListaEnvioMultiplosController@index')->name('listaenviosMultiplos.index');
+        Route::get('/create', 'ListaEnvioMultiplosController@create')->name('listaenviosMultiplos.create');
+        Route::get('/store/{id}', 'ListaEnvioMultiplosController@store')->name('listaenviosMultiplos.store');
+
+        Route::post('/', 'ListaEnvioMultiplosController@carregar')->name('listaenviosMultiplos.carregar');
+        Route::post('/enviaremail', 'ListaEnvioMultiplosController@enviarEmail')->name('listaenviosMultiplos.enviaremail');
+        Route::post('/consultaMes', 'ListaEnvioMultiplosController@consultaMes')->name('listaenviosMultiplos.consultaMes');
+
+        Route::get('/viewEmail','ListaEnvioMultiplosController@viewEmail')->name('listaenviosMultiplos.viewEmail');
+    });
+
+
+
+    Route::prefix('protocolos')->namespace('App\Http\Controllers')->group(function() {
+        Route::get('/', 'ProtocoloController@index')->name('protocolos.index');
+        Route::get('/cadastro', 'ProtocoloController@store')->name('protocolos.store');
+        Route::post('/create', 'ProtocoloController@create')->name('protocolos.create');
+        Route::get('/edit/{id}', 'ProtocoloController@edit')->name('protocolos.edit');
+        Route::get('/pdf/{id}','ProtocoloController@pdf')->name('protocolo.pdf');
+        Route::get('/update/{id}','ProtocoloController@update')->name('protocolo.update');
+        Route::delete('/delete/{id}','ProtocoloController@destroy')->name('protocolo.delete');
+    });
+
+
+    Route::prefix('protocolos/multiplos')->namespace('App\Http\Controllers')->group(function() {
+        Route::get('/', 'ProtocoloMultiplosController@index')->name('protocolosMultiplos.index');
+        Route::get('/cadastro', 'ProtocoloMultiplosController@store')->name('protocolosMultiplos.store');
+        Route::post('/create', 'ProtocoloMultiplosController@create')->name('protocolosMultiplos.create');
+        Route::get('/edit/{id}', 'ProtocoloMultiplosController@edit')->name('protocolosMultiplos.edit');
+        Route::get('/pdf/{id}','ProtocoloMultiplosController@pdf')->name('protocolosMultiplos.pdf');
+        Route::get('/update/{id}','ProtocoloMultiplosController@update')->name('protocolosMultiplos.update');
+        Route::delete('/delete/{id}','ProtocoloMultiplosController@destroy')->name('protocolosMultiplos.delete');
+
+
+        //Segurança do trabalho
+        Route::post('/update-st','ProtocoloMultiplosController@AprovarVistoriasST')->name('protocolosMultiplos.update-st');
+    });
 
     //Rotas de Pesquisa
-    Route::post('/carrega/predio','App\Http\Controllers\CarregaController@predios')->name('carrega.predio');
-    Route::post('/carrega/empreiteiras','App\Http\Controllers\CarregaController@empreiteiras')->name('carrega.empreiteiras');
-    Route::post('/carrega/pi','App\Http\Controllers\CarregaController@processoIntervencao')->name('carrega.pi');
+    Route::prefix('carrega')->namespace('App\Http\Controllers')->group(function() {
+        Route::post('/predio','CarregaController@predios')->name('carrega.predio');
+        Route::post('/empreiteiras','CarregaController@empreiteiras')->name('carrega.empreiteiras');
+        Route::post('/pi','CarregaController@processoIntervencao')->name('carrega.pi');
+        Route::post('/vistorias','CarregaController@vistorias')->name('carrega.vistorias');
+        Route::post('/vistorias/multiplas','CarregaController@vistoriasMultiplas')->name('carrega.vistoriasMultiplas');
 
+    });
+
+
+    //Logs
+    Route::prefix('logs')->group(function() {
+        Route::prefix('upload')->namespace('App\Http\Controllers')->group(function() {
+            Route::match(['GET', 'POST'], '/', 'UploadLogController@index')->name('logs.upload.list');
+        });
+    });
     //End Rotas de pesquisa
 
+    //download
+
+    Route::get('/storage-link', function() {
+        $artisanLink = Artisan::call('storage:link');
+        return "Storage Link created :".$artisanLink;
+    });
+
 });
+
+
 
 //Rederização de pagina.
 Route::group(['middleware' => 'auth'], function () {

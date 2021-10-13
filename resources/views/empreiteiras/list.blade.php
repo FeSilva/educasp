@@ -67,13 +67,7 @@
                                     Razão Social
                                 </th>
                                 <th>
-                                    CNPJ
-                                </th>
-                                <th>
                                     E-MAIL
-                                </th>
-                                <th>
-                                    Nome do Contato
                                 </th>
                                 <th>
                                     Ações
@@ -144,16 +138,8 @@
                     name: 'name'
                 },
                 {
-                    data: 'cnpj',
-                    name: 'cnpj'
-                },
-                {
                     data: 'email',
                     name: 'email'
-                },
-                {
-                    data: 'nome_contato',
-                    name: 'nome_contato'
                 },
                 {
                     data: 'action',

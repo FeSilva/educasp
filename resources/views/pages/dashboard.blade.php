@@ -22,19 +22,20 @@
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">Predios</p>
-                                    <p class="card-title">15000
+                                    <p class="card-category">PIS</p>
+                                    <small>(Processo de Intervenção)</small>
+                                    <p class="card-title">{{$return['pis']}}
                                         <p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer ">
+                  <!--  <div class="card-footer ">
                         <hr>
                         <div class="stats">
                             <i class="fa fa-refresh"></i> Atualizar
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
@@ -48,8 +49,9 @@
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">Intervenção</p>
-                                    <p class="card-title">2
+                                    <p class="card-category">Vistorias</p>
+                                    <small>(Não Enviados)</small>
+                                    <p class="card-title">{{$return['naoEnviados']}}
                                         <p>
                                 </div>
                             </div>
@@ -74,8 +76,8 @@
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">Vistoria</p>
-                                    <p class="card-title">23
+                                    <p class="card-category">Vistorias Aguardando Retorno</p>
+                                    <p class="card-title">{{$return['emAprovacao']}}
                                         <p>
                                 </div>
                             </div>

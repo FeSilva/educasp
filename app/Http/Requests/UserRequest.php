@@ -30,6 +30,7 @@ class UserRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email|'.Rule::unique('users')->ignore($this->request->get('id')),
             'grupoUser' => 'required',
+            //'cod_user_fde' => '',
             'password' => 'confirmed|min:6'
         ];
     }
@@ -37,6 +38,7 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
+            //'cod_user_fde.required' => 'Por favor informe o código FDE do usuário',
             'name.required' => 'Qual nome do usuário ?',
             'email.required' => 'informe o email do usuário',
             'email.unique'  => 'Já existe um usuário com este email cadastro.',

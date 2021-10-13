@@ -88,16 +88,20 @@
 
                                             @php
                                                 if($usuario['ativo'] == 0){
-                                                echo "<button type='button' class='btn btn-warning'
-                                                 onclick='deleteUser($usuario[id])'>Deletar</button> &nbsp;&nbsp;";
+
+                                                echo "  <a href='#'>
+                                                <img src='{{asset('paper')}}/img/icons/edit.png' width='30px'  onclick='deleteUser($usuario[id])'>
+                                            </a> &nbsp;&nbsp;";
 
                                                 echo "<button type='button' class='btn btn-danger'
                                                 onclick='ativarUser($usuario[id])'>Ativar</button>";
                                             }else{
                                             @endphp
-                                                <button type='button'
-                                                onclick="window.location='{{route('usuarios.store', ['id' => $usuario['id']])}}'"
-                                                class='btn btn-primary'>Editar</button>  &nbsp;&nbsp;
+
+                                            <a href="#">
+                                                <img src="{{asset("paper")}}/img/icons/edit.png" width="30px" onclick="window.location='{{route('usuarios.store', ['id' => $usuario['id']])}}'">
+                                            </a>
+
                                             @php
                                                  echo "<button type='button' class='btn btn-warning'
                                                  onclick='desativarUser($usuario[id])'>Inativar</button> ";
@@ -139,7 +143,7 @@
 
             function desativarUser(id) { //Falar sobre Modal bootstrap no laravel para melhorar layout de notificação.
 
-                var confirmacao = confirm("O usuário será Deletado, tem certeza que deseja continuar com a ação ?");
+                var confirmacao = confirm("O usuário será Desativado, tem certeza que deseja continuar com a ação ?");
 
                 if (confirmacao) {
                     window.location = '/usuarios/desativar/' + id;
@@ -150,7 +154,7 @@
 
             function deleteUser(id) { //Falar sobre Modal bootstrap no laravel para melhorar layout de notificação.
 
-                var confirmacao = confirm("O usuário será desativado, tem certeza que deseja continuar com a ação ?");
+                var confirmacao = confirm("O usuário será Desativado, tem certeza que deseja continuar com a ação ?");
 
                 if (confirmacao) {
                     window.location = '/usuarios/delete/' + id;

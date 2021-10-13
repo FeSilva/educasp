@@ -33,9 +33,11 @@ class Pi extends Model
         'programa',
         'objeto_pi',
         'municipio',
+        'cod_pi',
         'prazo_total',
         'valor_total',
         'bairro',
+        'rv',
         'descricao',
         'telefone'
     ];
@@ -49,6 +51,9 @@ class Pi extends Model
         }
     }
 
+    public function vistorias(){
+        return $this->hasMany(Vistoria::class);
+    }
     public function Items(){
         return $this->hasMany(Item::class,'id_pi','id');
     }
@@ -77,6 +82,7 @@ class Pi extends Model
             'tipo_contratacao'  => $info['contratacao'],
             'id_empreiteira'    => $info['empreiteiras'],
             'programa'          => $info['programa'],
+            'rv'                => $info['rv'],
             'objeto_pi'         => $info['objeto_pi'],
             'valor_total'       => $info['valor_total'],
             'prazo_total'       => $info['prazo_total'],
@@ -99,6 +105,7 @@ class Pi extends Model
             'tipo_contratacao'       => $info['contratacao'],
             'programa'          => $info['programa'],
             'objeto_pi'         => $info['objeto_pi'],
+            'rv'                => $info['rv'],
             'id_empreiteira'    => $info['empreiteiras'],
             'valor_total'       => $info['valor_total'],
             'prazo_total'       => $info['prazo_total'],

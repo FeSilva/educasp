@@ -54,6 +54,7 @@ class Users extends Model
             'email' => $info['email'],
             'grupo' => $info['grupoUser'],
             'celular' => $info['celular'],
+            'cod_user_fde' => $info['cod_user_fde'],
             'ativo'    => $info['status'],
             'obs'   => $info['observacoes'],
             'empresa' => 'JHE',
@@ -71,6 +72,7 @@ class Users extends Model
                 'email' => $info['email'],
                 'grupo' => $info['grupoUser'],
                 'celular' => $info['celular'],
+                'cod_user_fde' => $info['cod_user_fde'],
                 'ativo'    => $info['status'],
                 'obs'=> $info['observacoes'],
                 'empresa' => 'JHE',
@@ -82,6 +84,7 @@ class Users extends Model
                 'email' => $info['email'],
                 'grupo' => $info['grupoUser'],
                 'ativo'    => $info['status'],
+                'cod_user_fde'  => $info['cod_user_fde'],
                 'celular' => $info['celular'],
                 'obs'=> $info['observacoes'],
                 'empresa' => 'JHE'

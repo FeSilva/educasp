@@ -1,4 +1,4 @@
-<form action="{{ $action }}" method="{{ $method ?? 'GET' }}" {{ $attributes ?? '' }}>
+<form action="{{ $action }}" id="{{ $id ?? '' }}" method="{{ $method ?? 'GET' }}" {{ $attributes ?? '' }}>
     @if($method == 'POST')
         @csrf
     @endif

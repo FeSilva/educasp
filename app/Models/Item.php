@@ -10,6 +10,7 @@ class Item extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = 'items';
     protected $dates = ['deleted_at'];
     public $timestamps = true;
     protected $primaryKey = 'id';
@@ -25,6 +26,9 @@ class Item extends Model
         'descricao_item',
     ];
 
+    public function AndamentoItems(){
+        return $this->hasOne(VistoriaItemAndamento::class,'item_id','id')->latest();
+    }
 
     public function createItem($info)
     {

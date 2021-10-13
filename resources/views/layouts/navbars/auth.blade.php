@@ -63,9 +63,9 @@
             </li>
             @endif
             <li
-                class="{{ $elementActive == 'vistoria' || $elementActive == 'vistorias' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' ? 'active' : '' }}">
+                    class="{{ $elementActive == 'vistoria' || $elementActive == 'vistorias' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' || $elementActive == 'protocolos' || $elementActive == 'upload-zip' || $elementActive == 'lista_envios' ?  'active' : '' }}">
                 @php
-                    $elementActive == 'vistoria' || $elementActive == 'vistorias' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' ? ($show = 'show') : ($show = '');
+                    $elementActive == 'vistoria' || $elementActive == 'vistorias' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' || $elementActive == 'protocolos' || $elementActive == 'upload-zip' || $elementActive == 'lista_envios' ? ($show = 'show') : ($show = '');
                 @endphp
                 <a data-toggle="collapse" aria-expanded="false" href="#vistorias">
                     <i class="nc-icon nc-single-copy-04"></i>
@@ -73,7 +73,7 @@
                 </a>
                 <div class="collapse {{ $show }}" id="vistorias">
                     <ul class="nav">
-                        <li class="{{ $elementActive == 'vistorias' ? 'active' : '' }}">
+                        <li class="{{ $elementActive == 'vistorias' || $elementActive == 'protocolos' || $elementActive == 'upload-zip' || $elementActive == 'lista_envios' ? 'active' : '' }}">
                             <ul class="nav">
 
                                 <li class="{{ $elementActive == 'vistorias' ? 'active' : '' }}">
@@ -81,16 +81,116 @@
                                         <span class="sidebar-normal">{{ __(' - Cadastro de Vistoria ') }}</span>
                                     </a>
                                 </li>
-                                            <!--<li class="{{ $elementActive == 'especificas' ? 'active' : '' }}">
+                                <li class="{{ $elementActive == 'protocolos' ? 'active' : '' }}">
+                                    <a href="{{ route('page.index', 'protocolos') }}">
+                                        <span class="sidebar-normal">{{ __(' - Protocolo de Envio ') }}</span>
+                                    </a>
+                                </li>
+                                <li class="{{ $elementActive == 'upload-zip' ? 'active' : '' }}">
+                                    <a href="{{ route('page.index', 'ziparchive') }}">
+                                        <span class="sidebar-normal">{{ __(' - Upload Zip ') }}</span>
+                                    </a>
+                                </li>
+
+                                <li class="{{ $elementActive == 'lista_envios' ? 'active' : '' }}">
+                                    <a href="{{ route('page.index', 'listaenvios') }}">
+                                        <span class="sidebar-normal">{{ __(' - Lista de Envios ') }}</span>
+                                    </a>
+                                </li>
+                            <!--<li class="{{ $elementActive == 'especificas' ? 'active' : '' }}">
+                                    <a href="">
+                                        <span class="sidebar-normal">{{ __(' - Lista de Envio') }}</span>
+                                    </a>
+                                </li>
+                                <li class="{{ $elementActive == 'cadastro-pi' ? 'active' : '' }}">
+                                    <a href="">
+                                        <span class="sidebar-normal">{{ __(' - Gerência') }}</span>
+                                    </a>
+                                </li>-->
+                            </ul>
+                        </li>
+                    <!--<li class="{{ $elementActive == 'especificas' ? 'active' : '' }}">
+                            @php
+                        $elementActive == 'vistoria' || $elementActive == 'obras' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' ? ($show = 'show') : ($show = '');
+                    @endphp
+                            <ul class="nav">
+                                <li class="{{ $elementActive == 'especificas' }}">
+                                    <a data-toggle="collapse" aria-expanded="false" href="#especificas">
+
+                                        <p>{{ __('Especificas') }}<b class="caret"></b></p>
+                                    </a>
+                                    <div class="collapse {{ $show }}" id="especificas">
+                                        <ul class="nav">
+                                            <li class="{{ $elementActive == 'obras' ? 'active' : '' }}">
                                                 <a href="">
-                                                    <span class="sidebar-normal">{{ __(' - Lista de Envio') }}</span>
+                                                    <span
+                                                        class="sidebar-normal">{{ __(' - Cadastro de abertura') }}</span>
                                                 </a>
                                             </li>
-                                            <li class="{{ $elementActive == 'cadastro-pi' ? 'active' : '' }}">
+                                            <li class="{{ $elementActive == 'especificas' ? 'active' : '' }}">
                                                 <a href="">
-                                                    <span class="sidebar-normal">{{ __(' - Gerência') }}</span>
+                                                    <span class="sidebar-normal">{{ __(' - Envio') }}</span>
                                                 </a>
-                                            </li>-->
+                                            </li>
+                                            <li class="{{ $elementActive == 'especificas' ? 'active' : '' }}">
+                                                <a href="">
+                                                    <span class="sidebar-normal">{{ __(' - Aprovação') }}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>-->
+                    </ul>
+                </div>
+            </li>
+
+             <li
+                class="{{ $elementActive == 'vistoriaMultiplas' || $elementActive == 'protocolosMultiplos' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' || $elementActive == 'protocolos' || $elementActive == 'upload-zipMultiplos' || $elementActive == 'lista_envios_multiplos' ?  'active' : '' }}">
+                @php
+                    $elementActive == 'vistoriaMultiplas' || $elementActive == 'protocolosMultiplos' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' || $elementActive == 'protocolos' || $elementActive == 'upload-zipMultiplos' || $elementActive == 'lista_envios_multiplos' ? ($show = 'show') : ($show = '');
+                @endphp
+                <a data-toggle="collapse" aria-expanded="false" href="#vistoriaMultiplas">
+                    <i class="nc-icon nc-single-copy-04"></i>
+                    <p>{{ __('Vistorias Multiplas') }}<b class="caret"></b></p>
+                </a>
+                <div class="collapse {{ $show }}" id="vistoriaMultiplas">
+                    <ul class="nav">
+                        <li class="{{ $elementActive == 'vistoriaMultiplas' || $elementActive == 'protocolosMultiplos' || $elementActive == 'upload-zipMultiplos' || $elementActive == 'lista_envios_multiplos' ? 'active' : '' }}">
+                            <ul class="nav">
+
+                                <li class="{{ $elementActive == 'vistoriaMultiplas' ? 'active' : '' }}">
+                                    <a href="{{ route('page.index', 'vistorias/multiplas') }}">
+                                        <span class="sidebar-normal">{{ __(' - Cadastro de Vistoria Multiplas') }}</span>
+                                    </a>
+                                </li>
+                                <li class="{{ $elementActive == 'protocolosMultiplos' ? 'active' : '' }}">
+                                    <a href="{{ route('page.index', 'protocolos/multiplos') }}">
+                                        <span class="sidebar-normal">{{ __(' - Protocolo de Envio ') }}</span>
+                                    </a>
+                                </li>
+                                <li class="{{ $elementActive == 'upload-zipMultiplos' ? 'active' : '' }}">
+                                    <a href="{{ route('page.index', 'ziparchive/multiplos') }}">
+                                        <span class="sidebar-normal">{{ __(' - Upload Zip ') }}</span>
+                                    </a>
+                                </li>
+
+                                <li class="{{ $elementActive == 'lista_envios_multiplos' ? 'active' : '' }}">
+                                    <a href="{{ route('page.index', 'listaenviosMultiplos') }}">
+                                        <span class="sidebar-normal">{{ __(' - Lista de Envios ') }}</span>
+                                    </a>
+                                </li>
+                                <!--<li class="{{ $elementActive == 'especificas' ? 'active' : '' }}">
+                                    <a href="">
+                                        <span class="sidebar-normal">{{ __(' - Lista de Envio') }}</span>
+                                    </a>
+                                </li>
+                                <li class="{{ $elementActive == 'cadastro-pi' ? 'active' : '' }}">
+                                    <a href="">
+                                        <span class="sidebar-normal">{{ __(' - Gerência') }}</span>
+                                    </a>
+                                </li>-->
                             </ul>
                         </li>
                         <!--<li class="{{ $elementActive == 'especificas' ? 'active' : '' }}">
@@ -131,7 +231,22 @@
             </li>
 
 
+            <li class="{{ $elementActive == 'logs' ? ($show = 'show active') : ($show = '') }}">
+                <a data-toggle="collapse" aria-expanded="false" href="#logs">
+                    <i class="nc-icon nc-settings-gear-65"></i>
+                    <p>{{ __('Logs') }}<b class="caret"></b></p>
+                </a>
+                <div class="collapse {{ $show }}" id="logs">
+                    <ul class="nav">
+                        <li class="{{ $elementActive == 'logs' ? 'active' : '' }}">
+                            <a href="{{ route('logs.upload.list') }}">
 
+                                <span class="sidebar-normal">{{ __(' - Uploads') }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
 
 
             <li class="{{ $elementActive == 'user' || $elementActive == 'profile' ? ($show = 'show') : ($show = '') }}">

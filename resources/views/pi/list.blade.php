@@ -85,9 +85,9 @@
                                             {{ $pi['empreiteiras'][0]['name'] }}
                                         </td>
                                         <td>
-                                            <button type="button"
-                                                onclick="window.location='{{ route('pi.store', ['id' => $pi['id']]) }}'"
-                                                class="btn btn-primary">Editar</button>
+                                            <a href="#">
+                                                <img src="{{asset("paper")}}/img/icons/edit.png"  onclick="window.location='{{ route('pi.store', ['id' => $pi['id']]) }}'"  width="30px">
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

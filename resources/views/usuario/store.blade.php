@@ -142,12 +142,20 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label class="col-md- col-form-label">Status </label>
 
                                 <div class="form-group">
                                     {{ Form::select('status', $status, old('status', $usuarios['ativo']), ['id' => 'status', 'class' => 'form-control', 'placeholder' => 'Selecione',$readonly]) }}
 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md- col-form-label">Cód. FDE </label>
+
+                                <div class="form-group">
+
+                                        <input type="text" name="cod_user_fde" id="cod_user_fde" class="form-control" placeholder="" value="{{ old('cod_user_fde', $usuarios['cod_user_fde']) }}">
                                 </div>
                             </div>
                         </div>

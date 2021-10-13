@@ -28,7 +28,6 @@ class ItemRequest extends FormRequest
             'tipo_item' => 'required',
             'valor_item' => 'required',
             'dt_assin_ois' => 'required',
-            'dt_abertura'   => 'required',
             'prazo_item'    => 'required'
         ];
     }
@@ -39,7 +38,6 @@ class ItemRequest extends FormRequest
             'tipo_item.require'=> 'Preencha o campo Tipo Item',
             'valor_item.required'        => 'Preencha o campo de valor do item',
             'dt_assin_ois.required'=> 'Preencha o campo de data de OIS',
-            'dt_abertura.required'  => 'Preencha o campo de data de abertura',
             'prazo_item.required'    => 'Preencha um prazo para o item'
         ];
     }
