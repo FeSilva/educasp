@@ -56,6 +56,7 @@
     <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
     <script src="{{ asset('paper') }}/demo/demo.js"></script>
     <!-- Mask Jquery -->
+    <script src="{{asset('paper')}}/dashboard/chats.js"></script>
     <script src="{{ asset('paper') }}/js/jquery.mask.js"></script>
 
 

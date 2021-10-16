@@ -88,7 +88,7 @@
 
 
                 $('.predios').DataTable({
-                    processing: true,
+                    processing: false,
                     serverSide: true,
                     ajax: "{{ route('predios.list') }}",
                     language: {

@@ -51,7 +51,7 @@
                                 <div class="numbers">
                                     <p class="card-category">Vistorias</p>
                                     <small>(Não Enviados)</small>
-                                    <p class="card-title">{{$return['naoEnviados']}}
+                                    <p class="card-title">{{$return['naoEnviados_LO']}}
                                         <p>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">Vistorias Aguardando Retorno</p>
-                                    <p class="card-title">{{$return['emAprovacao']}}
+                                    <p class="card-title">{{$return['emAprovacao_LO']}}
                                         <p>
                                 </div>
                             </div>
@@ -189,6 +189,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+
             // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
             demo.initChartsPages();
         });

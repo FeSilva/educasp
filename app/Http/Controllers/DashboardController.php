@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pi;
+use App\Models\VistoriasMultiplas;
 use App\Models\Vistoria;
 use Illuminate\Http\Request;
+use DB;
 
 class DashboardController extends Controller
 {
@@ -25,6 +27,10 @@ class DashboardController extends Controller
         $enviados = 0;
         $pi = Pi::get();
         $vistorias = Vistoria::get();
+        $vistoriaMultiplas = VistoriasMultiplas::whereIn('tipo_id', [4, 5])->where('status', 'em aprovacao')->get();
+
+        $returnCharts = [];
+
 
         foreach ($vistorias as $vistoria) {
             switch ($vistoria->status) {
@@ -41,14 +47,114 @@ class DashboardController extends Controller
 
 
         $return = [
-            'naoEnviados' => $naoEnviadas,
-            'emAprovacao' => $aguardandoRetorno,
-            'enviado' => $enviados,
+            'naoEnviados_LO' => $naoEnviadas,
+            'emAprovacao_LO' => $aguardandoRetorno,
+            'enviado_LO' => $enviados,
+            'orcamentoNaoAprovado' => count($vistoriaMultiplas),
             'pis' => count($pi)
         ];
 
-        return view('dashboard.index',compact('return'));
+        return view('dashboard.index', compact('return'));
     }
+
+    function returnChartJson()
+    {
+        //Aprovadas
+        for ($mes = 1; $mes <= 12; $mes++) {
+            $chartVistorias = DB::select(' 
+                          SELECT count(dt_vistoria) AS count, 
+                          MONTH(dt_vistoria) AS mes 
+                          FROM vistorias 
+                          WHERE status = "Enviado" 
+                          AND MONTH(dt_vistoria) = "' . $mes . '"');
+            if ($chartVistorias[0]->count > 1)
+                $returnCharts[$mes] = [
+                    'count' => $chartVistorias[0]->count,
+                    'mes' => $chartVistorias[0]->mes
+                ];
+        }
+
+        //Em aprovação
+        for ($mes = 1; $mes <= 12; $mes++) {
+            $chartVistoriasEmAprovacao = DB::select(' 
+                          SELECT count(dt_vistoria) AS count, 
+                          MONTH(dt_vistoria) AS mes 
+                          FROM vistorias 
+                          WHERE status <> "Enviado" 
+                          AND MONTH(dt_vistoria) = "' . $mes . '"');
+
+            $returnChartsEmaprovacao[$mes] = [
+                'count' => $chartVistoriasEmAprovacao[0]->count,
+                'mes' => $chartVistoriasEmAprovacao[0]->mes ?? 0
+            ];
+        }
+
+        return [
+            'aprovadas' => $returnCharts,
+            'naoenviadas' => $returnChartsEmaprovacao
+        ];
+    }
+
+    function returnChartsJsonMulti()
+    {
+        $status = ['Enviado', 'em aprovacao', 'cadastro', 'aprovado'];
+
+        foreach ($status as $state) {
+            for ($mes = 1; $mes <= 12; $mes++) {
+                $chartVistoriasMult = DB::select(' 
+                              SELECT count(dt_vistoria) AS count, 
+                              MONTH(dt_vistoria) AS mes,
+                              status
+                              FROM vistorias_multiplas 
+                              WHERE
+                              status = "' . $state . '"
+                              and
+                              MONTH(dt_vistoria) = "' . $mes . '"');
+                if ($chartVistoriasMult[0]->count > 1)
+
+                    $returnCharts[$chartVistoriasMult[0]->status][$mes] = [
+                        'count' => $chartVistoriasMult[0]->count,
+                        'mes' => $chartVistoriasMult[0]->mes
+                    ];
+            }
+        }
+
+        return json_encode($returnCharts);
+    }
+
+    function returnChartsJsonMultType()
+    {
+        $status = ['Enviado', 'em aprovacao', 'cadastro', 'aprovado'];
+        $tipo_id = ['4', '5', '6', '7', '8'];
+
+        foreach ($tipo_id as $tipo) {
+            foreach ($status as $state) {
+                for ($mes = 1; $mes <= 12; $mes++) {
+                    $chartVistoriasMult = DB::select(' 
+                              SELECT count(dt_vistoria) AS count, 
+                              MONTH(dt_vistoria) AS mes,
+                              tipo_id as tipo
+                              FROM vistorias_multiplas 
+                              WHERE
+                              status = "Enviado"
+                              and
+                              tipo_id  = "' . $tipo . '"
+                              and
+                              MONTH(dt_vistoria) = "' . $mes . '"');
+                    if ($chartVistoriasMult[0]->count > 1)
+
+                        $returnCharts[$chartVistoriasMult[0]->tipo][$mes] = [
+                            'count' => $chartVistoriasMult[0]->count,
+                            'tipo_id' => $chartVistoriasMult[0]->tipo,
+                            'mes' => $chartVistoriasMult[0]->mes
+                        ];
+                }
+            }
+        }
+
+        return json_encode($returnCharts);
+    }
+
 
     /**
      * Show the form for creating a new resource.
