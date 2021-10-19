@@ -26,7 +26,10 @@ Route::group(['middleware' => 'auth'], function () {
     //Home / Dashboard
     Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-
+    Route::get('/dashboardCharts', [App\Http\Controllers\DashboardController::class, 'returnChartJson'])->name('dashboardCharts');
+    Route::get('/dashboardChartsMult', [App\Http\Controllers\DashboardController::class, 'returnChartsJsonMulti'])->name('returnChartsJsonMulti');
+    Route::get('/dashboardChartsMultType', [App\Http\Controllers\DashboardController::class, 'returnChartsJsonMultType'])->name('dashboard.ChartsMultType');
+    Route::get('/dashboardSinteticTableVistorias',[App\Http\Controllers\DashboardController::class, 'sintenticTableVistorias'])->name('dashboard.SinteticTableVistorias');
 
 
     //PARAMÊTROS

@@ -6,6 +6,7 @@ use App\Models\Pi;
 use App\Models\VistoriasMultiplas;
 use App\Models\Vistoria;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 use DB;
 
 class DashboardController extends Controller
@@ -26,29 +27,21 @@ class DashboardController extends Controller
         $aguardandoRetorno = 0;
         $enviados = 0;
         $pi = Pi::get();
-        $vistorias = Vistoria::get();
+        $naoEnviadas = Vistoria::whereNotIn('status',['Enviado','Em aprovação'])->get(); //NOT IN
+        $naoEnviadasMultipplas = VistoriasMultiplas::whereNotIn('status',['Enviado','Em aprovação'])->get();//NOT IN
         $vistoriaMultiplas = VistoriasMultiplas::whereIn('tipo_id', [4, 5])->where('status', 'em aprovacao')->get();
 
+        $vistoriasMult = VistoriasMultiplas::whereIN('status',['cadastro','Aprovado'])->get();
+        $vistorias = Vistoria::whereIN('status',['cadastro','Aprovado'])->get();
+
+        $beforeSendCount = count($vistoriasMult) + count($vistorias);
         $returnCharts = [];
 
-
-        foreach ($vistorias as $vistoria) {
-            switch ($vistoria->status) {
-                case 'cadastro':
-                    $naoEnviadas++;
-                    break;
-                case 'em aprovação':
-                    $aguardandoRetorno++;
-                    break;
-                case 'Enviado':
-                    $enviados++;
-            }
-        }
-
+        $notSednCount = count($naoEnviadas) + count($naoEnviadasMultipplas);
 
         $return = [
-            'naoEnviados_LO' => $naoEnviadas,
-            'emAprovacao_LO' => $aguardandoRetorno,
+            'naoEnviados_LO' => $notSednCount,
+            'emAprovacao_LO' => $beforeSendCount,
             'enviado_LO' => $enviados,
             'orcamentoNaoAprovado' => count($vistoriaMultiplas),
             'pis' => count($pi)
@@ -59,6 +52,8 @@ class DashboardController extends Controller
 
     function returnChartJson()
     {
+        $returnChartsEmaprovacao = [];
+        $returnCharts = [];
         //Aprovadas
         for ($mes = 1; $mes <= 12; $mes++) {
             $chartVistorias = DB::select(' 
@@ -124,37 +119,108 @@ class DashboardController extends Controller
 
     function returnChartsJsonMultType()
     {
-        $status = ['Enviado', 'em aprovacao', 'cadastro', 'aprovado'];
-        $tipo_id = ['4', '5', '6', '7', '8'];
+        $returnChartsEmaprovacao = [];
+        $returnCharts = [];
+        //Aprovadas
+        for ($mes = 1; $mes <= 12; $mes++) {
+            $chartVistorias = DB::select(' 
+                          SELECT count(*) AS count, 
+                          MONTH(dt_vistoria) AS mes,
+                          tipo_id as tipo  
+                          FROM vistorias_multiplas 
+                          WHERE status = "Enviado" 
+                          AND MONTH(dt_vistoria) = "' . $mes . '"');
 
-        foreach ($tipo_id as $tipo) {
-            foreach ($status as $state) {
-                for ($mes = 1; $mes <= 12; $mes++) {
-                    $chartVistoriasMult = DB::select(' 
-                              SELECT count(dt_vistoria) AS count, 
-                              MONTH(dt_vistoria) AS mes,
-                              tipo_id as tipo
-                              FROM vistorias_multiplas 
-                              WHERE
-                              status = "Enviado"
-                              and
-                              tipo_id  = "' . $tipo . '"
-                              and
-                              MONTH(dt_vistoria) = "' . $mes . '"');
-                    if ($chartVistoriasMult[0]->count > 1)
-
-                        $returnCharts[$chartVistoriasMult[0]->tipo][$mes] = [
-                            'count' => $chartVistoriasMult[0]->count,
-                            'tipo_id' => $chartVistoriasMult[0]->tipo,
-                            'mes' => $chartVistoriasMult[0]->mes
-                        ];
-                }
-            }
+                $returnCharts[$mes] = [
+                    'count' => $chartVistorias[0]->count,
+                    'type' => $chartVistorias[0]->tipo,
+                    'mes' => $mes
+                ];
         }
 
-        return json_encode($returnCharts);
+        //Em aprovação
+
+        for ($mes = 1; $mes <= 12; $mes++) {
+            $chartVistoriasEmAprovacao = DB::select(' 
+                          SELECT count(*) AS count, 
+                          MONTH(dt_vistoria) AS mes,
+                          tipo_id as tipo 
+                          FROM vistorias_multiplas 
+                          WHERE status <> "Enviado" 
+                          AND MONTH(dt_vistoria) = "' . $mes . '"');
+
+                $returnChartsEmaprovacao[$mes] = [
+                    'count' => $chartVistoriasEmAprovacao[0]->count,
+                    'type' => $chartVistoriasEmAprovacao[0]->tipo,
+                    'mes' => $mes
+                ];
+        }
+
+        return [
+            'aprovadas' => $returnCharts,
+            'naoenviadas' => $returnChartsEmaprovacao
+        ];
     }
 
+    function sintenticTableVistorias()
+    {
+
+        $vistorias = DB::SELECT("
+		
+		SELECT 
+		#LO
+		CASE
+			WHEN vistorias.tipo_id = 1 THEN 'Abertura'
+			WHEN vistorias.tipo_id = 2 THEN 'Transferência'
+			WHEN vistorias.tipo_id = 3 THEN 'Fiscalização'
+		END AS tipo,
+		COUNT(*) as total,
+		SUM(CASE WHEN status IN ('cadastro','aprovado') then 1 else 0 end) AS tipo_mult_total_naoenviada, 
+		SUM(CASE WHEN status in ('em aprovação') then 1 else 0 end) AS total_mult_total_naoretornadas
+
+		FROM vistorias
+		GROUP BY tipo_id
+		
+		UNION 
+		
+		SELECT 
+		#Multiplas
+		CASE 
+			WHEN tipo_id = 4 THEN 'Orçamento Simples'
+			WHEN tipo_id = 5 THEN 'Orçamento Complexo'
+			WHEN tipo_id = 6 THEN 'Específica'
+			WHEN tipo_id = 7 THEN 'Gestão Social'
+			WHEN tipo_id = 8 THEN 'Segurança do Trabalho'
+		END AS tipo,
+		COUNT(*) as total,
+		SUM(CASE WHEN status IN ('cadastro','aprovado') then 1 else 0 end) AS tipo_mult_total_naoenviada, 
+		SUM(CASE WHEN status in ('em aprovação') then 1 else 0 end) AS total_mult_total_naoretornadas
+		FROM vistorias_multiplas
+		GROUP BY tipo_id
+		");
+
+        foreach ($vistorias as $vistoria) {
+
+                $vistoriasLO[$vistoria->tipo] = [
+                    'tipo' => $vistoria->tipo,
+                    'total' => $vistoria->tipo_total,
+                    'nao_enviadas' => $vistoria->tipo_total_naoenviada ?? 0,
+                    'nao_retornadas' => $vistoria->total_total_naoretornadas ?? 0
+                ];
+
+                $vistoriasMult[$vistoria->tipo_mult] = [
+                    'tipo' => $vistoria->tipo_mult,
+                    'total' => $vistoria->tipo_mult_total,
+                    'nao_enviadas' => $vistoria->tipo_mult_total_naoenviada ?? 0,
+                    'nao_retornadas' => $vistoria->tipo_mult_total_naoretornadas ?? 0,
+                ];
+        }
+
+        $aMerge = array_merge($vistoriasLO,$vistoriasMult);
+
+        return Datatables::of($aMerge)
+            ->make(true);
+    }
 
     /**
      * Show the form for creating a new resource.

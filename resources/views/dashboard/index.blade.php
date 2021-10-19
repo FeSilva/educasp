@@ -3,291 +3,13 @@
     'elementActive' => 'dashboard'
 ])
 
-@section('content')
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-        </ol>
-    </nav>
-    <div class="content">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-body ">
-                        <div class="row">
-                            <div class="col-5 col-md-4">
-                                {{-- <div class="icon-big text-center icon-warning">
-                                    <i class="nc-icon nc-globe text-warning"></i>
-                                </div> --}}
-                            </div>
-                            <div class="col-7 col-md-8">
-                                <div class="numbers">
-                                    <p class="card-category">
-                                        <small>PIS (Processo de Intervenção)</small>
-                                    </p>
 
-                                    <p class="card-title">{{$return['pis']}}
-                                    <p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  <div class="card-footer ">
-                          <hr>
-                          <div class="stats">
-                              <i class="fa fa-refresh"></i> Atualizar
-                          </div>
-                      </div>-->
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-body ">
-                        <div class="row">
-                            <div class="col-5 col-md-4">
-                                {{-- <div class="icon-big text-center icon-warning">
-                                    <i class="nc-icon nc-money-coins text-success"></i>
-                                </div> --}}
-                            </div>
-                            <div class="col-7 col-md-8">
-                                <div class="numbers">
-                                    <p class="card-category">
-                                        <small>Vistorias não Enviadas</small>
-                                    </p>
-
-
-                                    <p class="card-title">{{$return['naoEnviados_LO']}}
-                                    <p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--<div class="card-footer ">
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-refresh"></i> Atualizar
-                        </div>
-                    </div>-->
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-body ">
-                        <div class="row">
-                            <div class="col-5 col-md-4">
-                                {{-- <div class="icon-big text-center icon-warning">
-                                    <i class="nc-icon nc-vector text-danger"></i>
-                                </div> --}}
-                            </div>
-                            <div class="col-7 col-md-8">
-                                <div class="numbers">
-                                    <p class="card-category">
-                                        <small>Vistorias Aguardando Retorno</small>
-                                    </p>
-                                    <p class="card-title">{{$return['emAprovacao_LO']}}
-                                    <p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--<div class="card-footer ">
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-refresh"></i> Atualizar
-                        </div>
-                    </div>-->
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-body ">
-                        <div class="row">
-                            {{-- <div class="col-5 col-md-4">
-                                <div class="icon-big text-center icon-warning">
-                                    <i class="nc-icon nc-favourite-28 text-primary"></i>
-                                </div>
-                            </div> --}}
-                            <div class="col-7 col-md-8">
-                                <div class="numbers">
-                                    <p class="card-category">
-                                        <small>Orçamentos Aguardando Retorno</small>
-                                    </p>
-                                    <p class="card-title">{{$return['orcamentoNaoAprovado']}}
-                                    <p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--<div class="card-footer ">
-               <hr>
-               <div class="stats">
-                   <i class="fa fa-refresh"></i> Atualizar
-               </div>
-           </div>-->
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card ">
-                    <div class="card-header ">
-                        <h5 class="card-title">Vistorias Enviadas (LO - Obras)</h5>
-                        <p class="card-category">Ultimos 12 meses</p>
-                    </div>
-                    <div class="card-body ">
-                        <canvas id=chartHours width="400" height="100"></canvas>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card ">
-                    <div class="card-header ">
-                        <h5 class="card-title">Estatistica de Vistorias Multiplas</h5>
-                    </div>
-                    <div class="card-body ">
-                        <canvas id="chartEmail"></canvas>
-                    </div>
-                    <!--<div class="card-footer ">
-                        <div class="legend">
-                            <i class="fa fa-circle text-primary"></i> Não Enviada
-                            <i class="fa fa-circle text-warning"></i> Em Aprovacao
-                            <i class="fa fa-circle text-danger"></i> Aprovada
-                            <i class="fa fa-circle text-gray"></i> Enviada
-                        </div>
-                        <hr>
-
-                    </div>-->
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card card-chart">
-                    <div class="card-header">
-                        <h5 class="card-title">Vistorias Multiplas (Select type)</h5>
-
-                    </div>
-                    <div class="card-body">
-                        <canvas id="speedChart" width="400" height="100"></canvas>
-                    </div>
-                    <!--<div class="card-footer">
-                        <div class="chart-legend">
-                            <i class="fa fa-circle text-info"></i> Vistorias LO
-                            <i class="fa fa-circle text-warning"></i> Vistorias Multiplas
-                        </div>
-                        <hr/>
-                    </div>--->
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <!--geral-->
-            <div class="col-md-6 col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table total-vistorias-types" id="total-vistorias-types">
-                            <thead class=" text-primary">
-                            <tr>
-                                <th>
-                                    Tipo
-                                </th>
-                                <th>
-                                    Total
-                                </th>
-                                <th>
-                                    Não Enviadas
-                                </th>
-                                <th>
-                                    Não Retornadas
-                                </th>
-                            </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- por usuáriio-->
-            <div class="col-md-6 col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table " id="">
-                            <thead class=" text-primary">
-                            <tr>
-                                <th>
-                                    Tipo
-                                </th>
-                                <th>
-                                    Total
-                                </th>
-                                <th>
-                                    Não Enviadas
-                                </th>
-                                <th>
-                                    Não Retornadas
-                                </th>
-                            </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
 
 @push('scripts')
     <script type="text/javascript">
-        $('.total-vistorias-types').DataTable({
-            processing: true,
-            serverSide: true,
-            language: {
-                "lengthMenu": "registros _MENU_ por página",
-                "zeroRecords": "Nenhum registro encontrado",
-                "info": "Página _PAGE_ de _PAGES_",
-                "infoEmpty": "No records available",
-                "infoFiltered": "(Total de  _MAX_ total records)",
-                "search": "Pesquisar:",
-                "paginate": {
-                    "first": "Primeiro",
-                    "last": "Last",
-                    "next": "Próximo",
-                    "previous": "Anterior"
-                },
-            },
-            columns: [
-                {
-                    data: 'tipo_vistoria',
-                    name: 'tipo_vistoria',
-                },
-                {
-                    data: 'total_vistorias',
-                    name: 'total_vistorias',
-                },
-                {
-                    data: 'nao_enviadas',
-                    name: 'nao_enviadas',
-                },
-                {
-                    data: 'nao_retornadas',
-                    name: 'nao_retornadas',
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
-            ]
-        });
+
         $(document).ready(function () {
-
-
-            //Chart vistorias aprovadas e não aprovadas
+             //Chart vistorias aprovadas e não aprovadas
             $.getJSON('/dashboardCharts', function (data) {
                 var jsonChartAprovadasMes = [];
                 var jsonChartAprovadasCount = [];
@@ -333,34 +55,71 @@
 
             //Chart aprovadas multiplas
             $.getJSON('/dashboardChartsMultType', function (dataType) {
+                var jsonChartAprovadasMes = [];
+                var jsonChartAprovadasCount = [];
+                var jsonChartAprovadasType = [];
+
+                var jsonChartCountNaoEnviadas = [];
+                var jsonChartTypeNaoEnviadas = [];
+
+                $.each(dataType.aprovadas, function (index, value) {
+                    jsonChartAprovadasMes.push(value.mes);
+                    jsonChartAprovadasType.push(value.type);
+                    jsonChartAprovadasCount.push(value.count);
+                });
+                $.each(dataType.naoenviadas, function (index, value) {
 
 
-                var jsonChartMultSendType = 0;
-                var jsonChartMultCreateType = 0;
-                var jsonChartMultPendSendType = 0;
-                var jsonChartMultApprovedType = 0;
-                var status = [];
-                /*$.each(dataType, function (index, value) {
-                    if(index == 'Enviado')
-                        $.each(value, function (index,valueMult) {
-                            jsonChartMultSendType += valueMult.count;
-                        });
-                    if(index == 'cadastro')
-                        $.each(value, function (index,valueMult) {
-                            jsonChartMultCreateType += valueMult.count;
-                        });
-                    if(index == 'em aprovacao')
-                        $.each(value, function (index,valueMult){
-                            jsonChartMultPendSendType += valueMult.count;
-                        });
-                    if(index == 'Aprovado')
-                        $.each(value, function (index,valueMult) {
-                            jsonChartMultApprovedType += valueMult.count;
-                        });
+                    jsonChartCountNaoEnviadas.push(value.count);
+                    jsonChartTypeNaoEnviadas.push(value.type);
+                });
 
-                });*/
-                chartJsMultType()
+
+                chartJsMultType(jsonChartAprovadasMes, jsonChartAprovadasCount,jsonChartAprovadasType, jsonChartCountNaoEnviadas,jsonChartTypeNaoEnviadas);
             });
+
+            //Sintentic tabel
+            $('.total-vistorias-types').DataTable({
+                processing: false,
+                serverSide: true,
+                ajax: {
+                    url: "/dashboardSinteticTableVistorias",
+                    type: "GET"
+                },
+                language: {
+                    "lengthMenu": "registros _MENU_ por página",
+                    "zeroRecords": "Nenhum registro encontrado",
+                    "info": "Página _PAGE_ de _PAGES_",
+                    "infoEmpty": "No records available",
+                    "infoFiltered": "(Total de  _MAX_ total records)",
+                    "search": "Pesquisar:",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Last",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    },
+                },
+                columns: [
+                    {
+                        data: 'tipo',
+                        name: 'tipo'
+                    },
+                    {
+                        data: 'total',
+                        name: 'total'
+                    },
+                    {
+                        data: 'nao_enviadas',
+                        name: 'nao_enviadas'
+                    },
+                    {
+                        data: 'nao_retornadas',
+                        name: 'nao_retornadas'
+                    }
+                ]
+            });
+
         });
 
         function chartsJsSendNotApproved(jsonChartAprovadasMes, jsonChartAprovadasCount, jsonChartCountNaoEnviadas) {
@@ -375,7 +134,7 @@
                     labels: jsonChartAprovadasMes,
                     datasets: [{
                         borderColor: "#f17e5d",
-                        label: 'Não Aprovadas',
+                        label: 'Não Enviadas',
                         backgroundColor: "#f17e5d",
                         pointRadius: 0,
                         pointHoverRadius: 0,
@@ -385,7 +144,7 @@
                         {
                             borderColor: "#6bd098",
 
-                            label: 'Vistorias Aprovadas',
+                            label: 'Enviadas',
                             backgroundColor: "#6bd098",
                             pointRadius: 0,
                             pointHoverRadius: 0,
@@ -506,12 +265,12 @@
             });
         }
 
-        function chartJsMultType() {
+        function chartJsMultType(jsonChartAprovadasMes, jsonChartAprovadasCount,jsonChartAprovadasType, jsonChartCountNaoEnviadas,jsonChartTypeNaoEnviadas){
             var speedCanvas = document.getElementById("speedChart");
-
             var dataFirst = {
-                data: [0, 19, 15, 20, 30, 40, 40, 50, 25, 30, 50, 70],
+                data: jsonChartAprovadasCount,
                 fill: false,
+                label:'Enviadas',
                 borderColor: '#fbc658',
                 backgroundColor: 'transparent',
                 pointBorderColor: '#fbc658',
@@ -521,8 +280,9 @@
             };
 
             var dataSecond = {
-                data: [0, 5, 10, 12, 20, 27, 30, 34, 42, 45, 55, 63],
+                data:jsonChartCountNaoEnviadas,
                 fill: false,
+                label:'Não Enviadas',
                 borderColor: '#51CACF',
                 backgroundColor: 'transparent',
                 pointBorderColor: '#51CACF',
@@ -532,7 +292,7 @@
             };
 
             var speedData = {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                labels: jsonChartAprovadasMes,
                 datasets: [dataFirst, dataSecond]
             };
 
