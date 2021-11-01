@@ -157,6 +157,7 @@ class Vistoria extends Model
 
     public static function verifyIfVistoriaExists($piCod)
     {
+
         $data = date('Y-m-d', strtotime(preg_replace('/\./', '-', explode('_', $piCod))));
         $piCod = substr($piCod, 0, 4) . '/' . substr($piCod, 4, 5);
 

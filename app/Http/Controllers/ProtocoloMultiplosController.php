@@ -235,7 +235,7 @@ class ProtocoloMultiplosController extends Controller
                     $pdf->Output( storage_path().'/app/public/archives/seguranca_trabalho/'.$name_archive.".pdf", "F");
 
 
-                    VistoriasMultiplas::where('id', $id_vistoria)->update(['status' => 'Aprovado','merge' => 1]);
+                    VistoriasMultiplas::find('id', $id_vistoria)->update(['status' => 'Aprovado','merge' => 1]);
 
                 } else {
                     //Excluí a vistoria que foi desmarcada.. ela irá sumir, validar o que irá ocorre com status dela.
