@@ -39,7 +39,7 @@
 
     <div class="content">
         <div class="row">
-            <form class="col-md-12" action="{{ route('pi.create') }}" method="POST">
+            <form class="col-md-12" action="{{ route('pi.create') }}" method="POST" style="overflow: auto">
                 <input name="_token" type="hidden" value="{{ csrf_token() }}" />
                 <input type="hidden" name="id_predio" id="id_predio" class="form-control" placeholder=""
                     value="{{ old('id_predio', $pi['id_predio']) }}">
@@ -79,6 +79,54 @@
                                         {{ $message }}
                                     </div>
                                     @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="col-md- col-form-label">Nº Contrato </label>
+
+                                <div class="form-group">
+                                    <input type="text" name="numero_contrato" id="numero_contrato"
+                                        class="form-control @error('numero_contrato') is-invalid @enderror" placeholder=""
+                                        value="{{ old('numero_contrato', $pi['numero_contrato']) }}">
+
+                                    @error('numero_contrato')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="col-md- col-form-label">Nº OS </label>
+
+                                <div class="form-group">
+                                    <input type="text" name="numero_os" id="numero_os"
+                                        class="form-control @error('numero_os') is-invalid @enderror" placeholder=""
+                                        value="{{ old('numero_os', $pi['numero_os']) }}">
+
+                                    @error('numero_os')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="col-md- col-form-label">Vistorias Mês </label>
+
+                                <div class="form-group">
+                                    <input type="number" name="qtde_vistorias_mes" id="qtde_vistorias_mes"
+                                        class="form-control @error('qtde_vistorias_mes') is-invalid @enderror" placeholder=""
+                                        value="{{ (old('qtde_vistorias_mes', $pi['qtde_vistorias_mes']) ?? '4') }}">
+
+                                    @error('qtde_vistorias_mes')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
                                 </div>
                             </div>
                         </div>

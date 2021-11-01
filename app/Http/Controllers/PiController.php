@@ -45,9 +45,6 @@ class PiController extends Controller
         $empreiteiras = $this->carregaEmpreiteiras($empreiteiras->getEmpreiteiras());
         $programas    = $this->carregaProgramas($programas->getProgramas());
 
-
-
-
         $oPi = [ //Criar Table/model para tipos de items ?
             "Reforma" => "Reforma",
             "AVCB - Obtenção" => "AVCB - Obtenção",
@@ -104,6 +101,9 @@ class PiController extends Controller
                     'diretoria' => $pi[0]['predios'][0]['diretoria'],
                 ],
                 'items' => $pi[0]['items'],
+                'qtde_vistorias_mes' => $pi[0]['qtde_vistorias_mes'],
+                'numero_contrato' => $pi[0]['numero_contrato'],
+                'numero_os' => $pi[0]['numero_os'],
             ];
 
         } else {
@@ -138,9 +138,11 @@ class PiController extends Controller
                     'prazo' => '',
                     'descricao_item' => '',
                 ],
+                'numero_contrato' => '',
+                'numero_os' => '',
+                'qtde_vistorias_mes' => ''
             ];
         }
-
 
         return view('pi.store')
             ->with(compact('pi'))

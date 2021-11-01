@@ -39,7 +39,10 @@ class Pi extends Model
         'bairro',
         'rv',
         'descricao',
-        'telefone'
+        'telefone',
+        'numero_contrato',
+        'numero_os',
+        'qtde_vistorias_mes'
     ];
 
     public function getPi($id = null){
@@ -86,7 +89,10 @@ class Pi extends Model
             'objeto_pi'         => $info['objeto_pi'],
             'valor_total'       => $info['valor_total'],
             'prazo_total'       => $info['prazo_total'],
-            'descricao'         => $info['descricao']
+            'descricao'         => $info['descricao'],
+            'numero_contrato'   => $info['numero_contrato'],
+            'numero_os'         => $info['numero_os'],
+            'qtde_vistorias_mes' => $info['qtde_vistorias_mes']
         ]);
 
         return  $returnCreate->id;
@@ -109,7 +115,10 @@ class Pi extends Model
             'id_empreiteira'    => $info['empreiteiras'],
             'valor_total'       => $info['valor_total'],
             'prazo_total'       => $info['prazo_total'],
-            'descricao'         => $info['descricao']
+            'descricao'         => $info['descricao'],
+            'numero_contrato'   => $info['numero_contrato'],
+            'numero_os'         => $info['numero_os'],
+            'qtde_vistorias_mes' => $info['qtde_vistorias_mes']
         ]);
 
         return  $returnUpdate;
