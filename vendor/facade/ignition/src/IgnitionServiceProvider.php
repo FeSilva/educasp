@@ -53,6 +53,7 @@ use Facade\Ignition\SolutionProviders\UndefinedPropertySolutionProvider;
 use Facade\Ignition\SolutionProviders\UndefinedVariableSolutionProvider;
 use Facade\Ignition\SolutionProviders\UnknownValidationSolutionProvider;
 use Facade\Ignition\SolutionProviders\ViewNotFoundSolutionProvider;
+use Facade\Ignition\Support\SentReports;
 use Facade\Ignition\Views\Engines\CompilerEngine;
 use Facade\Ignition\Views\Engines\PhpEngine;
 use Facade\IgnitionContracts\SolutionProviderRepository as SolutionProviderRepositoryContract;
@@ -260,14 +261,16 @@ class IgnitionServiceProvider extends ServiceProvider
             return new Client(
                 config('flare.key'),
                 config('flare.secret'),
-                config('flare.base_url', 'https://flareapp.io/api')
+                config('flare.base_url', 'https://reporting.flareapp.io/api')
             );
         });
+
+        $this->app->singleton(SentReports::class);
 
         $this->app->alias('flare.http', Client::class);
 
         $this->app->singleton(Flare::class, function () {
-            $client = new Flare($this->app->get('flare.http'), new LaravelContextDetector, $this->app);
+            $client = new Flare($this->app->get('flare.http'), new LaravelContextDetector(), $this->app);
             $client->applicationPath(base_path());
             $client->stage(config('app.env'));
 
@@ -280,7 +283,10 @@ class IgnitionServiceProvider extends ServiceProvider
     protected function registerLogHandler()
     {
         $this->app->singleton('flare.logger', function ($app) {
-            $handler = new FlareHandler($app->make(Flare::class));
+            $handler = new FlareHandler(
+                $app->make(Flare::class),
+                $app->make(SentReports::class)
+            );
 
             $logLevelString = config('logging.channels.flare.level', 'error');
 
@@ -495,6 +501,7 @@ class IgnitionServiceProvider extends ServiceProvider
 
     protected function resetFlare()
     {
+        $this->app->get(SentReports::class)->clear();
         $this->app->get(Flare::class)->reset();
 
         if (config('flare.reporting.report_logs')) {
