@@ -7,7 +7,7 @@ use App\Models\VistoriasMultiplas;
 use App\Models\Vistoria;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -26,7 +26,6 @@ class DashboardController extends Controller
         $naoEnviadas = 0;
         $aguardandoRetorno = 0;
         $enviados = 0;
-        $pi = Pi::get();
         $naoEnviadas = Vistoria::whereNotIn('status',['Enviado','Em aprovação'])->get(); //NOT IN
         $naoEnviadasMultipplas = VistoriasMultiplas::whereNotIn('status',['Enviado','Em aprovação'])->get();//NOT IN
         $vistoriaMultiplas = VistoriasMultiplas::whereIn('tipo_id', [4, 5])->where('status', 'em aprovacao')->get();
@@ -38,13 +37,13 @@ class DashboardController extends Controller
         $returnCharts = [];
 
         $notSednCount = count($naoEnviadas) + count($naoEnviadasMultipplas);
-
+        $calendarPis = $this->viewCalendarPis();
         $return = [
             'naoEnviados_LO' => $notSednCount,
             'emAprovacao_LO' => $beforeSendCount,
             'enviado_LO' => $enviados,
             'orcamentoNaoAprovado' => count($vistoriaMultiplas),
-            'pis' => count($pi)
+            'calendarPis' => $calendarPis
         ];
 
         return view('dashboard.index', compact('return'));
@@ -220,6 +219,28 @@ class DashboardController extends Controller
 
         return Datatables::of($aMerge)
             ->make(true);
+    }
+
+    private function viewCalendarPis()
+    {
+        $itens = [];
+        $calendarItens = DB::table('calendario_pi')->get();
+        foreach ($calendarItens as $key => $item) {
+            if ($item->diferenca_emDias < 0) {
+                $calendarItens[$key]->previsao = null;
+                $calendarItens[$key]->qtde_previsao = null;
+            } else {
+                //Transformar qtde de dias em meses
+                $meses = $item->diferenca_emDias / 22;
+                $qtde_vistorias_mais = (int) round($meses * 4);
+
+                $calendarItens[$key]->qtde_previsao = $qtde_vistorias_mais;
+            }
+
+            $itens[] = $calendarItens[$key];
+        }
+
+        return $itens;
     }
 
     /**

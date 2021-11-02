@@ -24,10 +24,10 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">
-                                        <small>PI</small>
+                                        <small>PIS</small>
                                     </p>
                                     <p class="card-title">
-                                        {{$return['pis']}}
+                                        {{ count($return['calendarPis']) }}
                                     <p>
                                 </div>
                             </div>
@@ -163,7 +163,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">PI - {{204}}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">PIS</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -173,15 +173,28 @@
                             <table class="table total-pi" id="table">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Total</th>
-                                    <th>And more..</th>
+                                    <th>PI</th>
+                                    <th>Contratual</th>
+                                    <th>Qtde Contratual</th>
+                                    <th>Previsão</th>
+                                    <th>Qtde Previsão</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td></td>
-                                </tr>
+                                @foreach($return['calendarPis'] as $pi)
+                                    <tr>
+                                        <td>{{ $pi->codigo }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($pi->Contratual)) }}</td>
+                                        <td>{{ $pi->qtd_atual }}</td>
+                                        <td>
+                                            <a href="calendar/pi">
+                                                {{ $pi->previsao ? date('d/m/Y', strtotime($pi->previsao)) : '' }}
+                                            </a>    
+                                        </td>
+                                            
+                                        <td>{{ $pi->qtde_previsao }}</td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>

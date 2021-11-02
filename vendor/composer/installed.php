@@ -436,7 +436,11 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
+<<<<<<< HEAD
             'reference' => '0278dc8b65e7317d5b309207a0cba64a65dfe177',
+=======
+            'reference' => '875b5d0210fe66e3e3f15aef33e9a8977e11d166',
+>>>>>>> calendar
             'dev_requirement' => false,
         ),
         'laravel/legacy-factories' => array(

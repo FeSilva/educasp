@@ -15,6 +15,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ResetPasswordController.php',
     'App\\Http\\Controllers\\Auth\\VerificationController' => $baseDir . '/app/Http/Controllers/Auth/VerificationController.php',
     'App\\Http\\Controllers\\CadastroVistoriaController' => $baseDir . '/app/Http/Controllers/CadastroVistoriaController.php',
+    'App\\Http\\Controllers\\CalendarController' => $baseDir . '/app/Http/Controllers/CalendarController.php',
     'App\\Http\\Controllers\\CarregaController' => $baseDir . '/app/Http/Controllers/CarregaController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\DashboardController' => $baseDir . '/app/Http/Controllers/DashboardController.php',
@@ -30,6 +31,15 @@ return array(
     'App\\Http\\Controllers\\ProfileController' => $baseDir . '/app/Http/Controllers/ProfileController.php',
     'App\\Http\\Controllers\\ProtocoloController' => $baseDir . '/app/Http/Controllers/ProtocoloController.php',
     'App\\Http\\Controllers\\ProtocoloMultiplosController' => $baseDir . '/app/Http/Controllers/ProtocoloMultiplosController.php',
+<<<<<<< HEAD
+=======
+    'App\\Http\\Controllers\\TesteAll2Controller' => $baseDir . '/app/Http/Controllers/TesteAll2Controller.php',
+    'App\\Http\\Controllers\\TesteAll3Controller' => $baseDir . '/app/Http/Controllers/TesteAll3Controller.php',
+    'App\\Http\\Controllers\\TesteAll4Controller' => $baseDir . '/app/Http/Controllers/TesteAll4Controller.php',
+    'App\\Http\\Controllers\\TesteAll6Controller' => $baseDir . '/app/Http/Controllers/TesteAll6Controller.php',
+    'App\\Http\\Controllers\\TesteAll7Controller' => $baseDir . '/app/Http/Controllers/TesteAll7Controller.php',
+    'App\\Http\\Controllers\\TesteAllController' => $baseDir . '/app/Http/Controllers/TesteAllController.php',
+>>>>>>> calendar
     'App\\Http\\Controllers\\UploadLogController' => $baseDir . '/app/Http/Controllers/UploadLogController.php',
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
     'App\\Http\\Controllers\\VistoriaController' => $baseDir . '/app/Http/Controllers/VistoriaController.php',
@@ -56,6 +66,7 @@ return array(
     'App\\Http\\Requests\\UploadZipRequest' => $baseDir . '/app/Http/Requests/UploadZipRequest.php',
     'App\\Http\\Requests\\UserRequest' => $baseDir . '/app/Http/Requests/UserRequest.php',
     'App\\Mail\\ListaEnvioMail' => $baseDir . '/app/Mail/ListaEnvioMail.php',
+    'App\\Models\\Calendar' => $baseDir . '/app/Models/Calendar.php',
     'App\\Models\\Empreiteiras' => $baseDir . '/app/Models/Empreiteiras.php',
     'App\\Models\\EnvioEmail' => $baseDir . '/app/Models/EnvioEmail.php',
     'App\\Models\\Item' => $baseDir . '/app/Models/Item.php',
@@ -197,6 +208,11 @@ return array(
     'Cron\\HoursField' => $vendorDir . '/dragonmantank/cron-expression/src/Cron/HoursField.php',
     'Cron\\MinutesField' => $vendorDir . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
     'Cron\\MonthField' => $vendorDir . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
+<<<<<<< HEAD
+=======
+    'Database\\Factories\\TesteAll4Factory' => $baseDir . '/database/factories/TesteAll4Factory.php',
+    'Database\\Factories\\TesteAllFactory' => $baseDir . '/database/factories/TesteAllFactory.php',
+>>>>>>> calendar
     'Database\\Factories\\UserFactory' => $baseDir . '/database/factories/UserFactory.php',
     'Database\\Seeders\\DatabaseSeeder' => $baseDir . '/database/seeders/DatabaseSeeder.php',
     'Database\\Seeders\\UsersTableSeeder' => $baseDir . '/database/seeders/UsersTableSeeder.php',

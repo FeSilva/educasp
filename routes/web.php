@@ -64,6 +64,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('items/store', ['as' => 'items.store', 'uses' => 'App\Http\Controllers\ItemController@store']);
     Route::get('items/delete/{id}/{id_pi}', ['as' => 'items.delete', 'uses' => 'App\Http\Controllers\ItemController@delete']);
 
+    //Calendar
+    Route::get('calendar/pi', ['as' => 'calendar.list', 'uses' => 'App\Http\Controllers\CalendarController@index']);
+
     //Empreiteiras
     Route::prefix('empreiteiras')->namespace('App\Http\Controllers')->group(function() {
         Route::get('/', 'EmpreiteirasController@index')->name('empreiteiras.list');
