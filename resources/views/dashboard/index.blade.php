@@ -169,51 +169,44 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="col-md-12 sm-12">
-                            <table class="table total-pi" id="table">
-                                <thead>
-                                <tr>
-                                    <th>PI</th>
-                                    <th>Contratual</th>
-                                    <th>Qtde Contratual</th>
-                                    <th>Previsão</th>
-                                    <th>Qtde Previsão</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($return['calendarPis'] as $pi)
+                        <div class="col-md-12 col.sm-12">
+                            <div class="table-responsive">
+                                <table class="table total-pi" id="total-pi" >
+                                    <thead>
                                     <tr>
-                                        <td>{{ $pi->codigo }}</td>
-                                        <td>{{ date('d/m/Y', strtotime($pi->Contratual)) }}</td>
-                                        <td>{{ $pi->qtd_atual }}</td>
-                                        <td>
-                                            <a href="calendar/pi">
-                                                {{ $pi->previsao ? date('d/m/Y', strtotime($pi->previsao)) : '' }}
-                                            </a>    
-                                        </td>
-                                            
-                                        <td>{{ $pi->qtde_previsao }}</td>
+                                        <th>PI</th>
+                                        <th>Data Abertura</th>
+                                        <th>Contratual</th>
+                                        <th>Qtde Contratual</th>
+                                        <th>Previsão</th>
+                                        <th>Qtde Previsão</th>
+                                        <th>Cadastradas</th>
+                                        <th>Aprovadas</th>
+                                        <th>Em aprovação</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- Total de PI por fiscal -->
-                        <div class="col-md-12 sm-12">
-                            <table class="table total-pi" id="table">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Total</th>
-                                    <th>And more..</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td></td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($return['calendarPis'] as $pi)
+                                            <tr>
+                                                <td>{{ $pi->codigo }}</td>
+                                                <td>{{ date('d/m/Y', strtotime($pi->inicio_obra)) }}</td>
+                                                <td>{{ date('d/m/Y', strtotime($pi->Contratual)) }}</td>
+                                                <td>{{ $pi->qtd_atual }}</td>
+                                                <td>
+                                                    <a href="calendar/pi">
+                                                        {{ $pi->previsao ? date('d/m/Y', strtotime($pi->previsao)) : '' }}
+                                                    </a>    
+                                                </td>
+                                                    
+                                                <td>{{ $pi->qtde_previsao }}</td>
+                                                <td>{{ $pi->cadastradas }}</td>
+                                                <td>{{ $pi->falta_envio }}</td>
+                                                <td>{{ $pi->aguardando_Retrono }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -539,6 +532,8 @@
                             }
                         ]
                     });
+
+                    $('#total-pi').DataTable();
 
                 });
 
