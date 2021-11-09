@@ -197,6 +197,12 @@ Route::group(['middleware' => 'auth'], function () {
         return "Storage Link created :".$artisanLink;
     });
 
+
+    //Documentos
+    Route::prefix('documents')->namespace('App\Http\Controllers')->group(function() {
+        Route::get('os', 'DocumentController@index')->name('documents.os');
+    });
+
 });
 
 
