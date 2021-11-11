@@ -12,6 +12,6 @@ class DocumentController extends Controller
     {
 
         $pdf = PDF::loadView('documents.os', [])->setOptions(['defaultFont' => 'sans-serif']);
-        return $pdf->download('document_os.pdf');
+        return $pdf->stream();
     }
 }

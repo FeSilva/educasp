@@ -1,63 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
-        <style>
-            table .table-borderd {
-                border: 1px solid #CCC;
-            }
-            .divisor {
-                height: 5px;
-                background-color: black;
-                width: 100%;
-                margin: 20px 0;
-            }
-
-            table tr td {
-                text-transform: uppercase;
-            }
-
-            table .thead {
-                font-weight: bold;
-            }
-
-            .assinatura {
-                margin-top: 200px;
-                text-transform: uppercase;
-                font-weight: bold;
-                border-top: 1px solid #444;
-                max-width: 300px;
-            }
-
-            .data, .de_acordo {
-                font-weight: bold;
-                margin-top: 40px;
-            }
-
-            .data .divisor_data {
-                padding: 0 20px;
-            }
-
-            .assinatura_supervisao, .assinatura_gerencia {
-                margin-top: 100px;
-                text-transform: uppercase;
-                font-weight: bold;
-                border-top: 1px solid #444;
-                max-width: 300px;
-            }
-
-            .assinatura_gerencia_span {
-                position: relative;
-                top: 80px;
-            }
-
-            .assinatura_gerencia {
-                margin-top: 80px;
-            }
-            .container{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}
-            .row{display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-15px;margin-left:-15px}
-            .col-12,.col-6{position:relative;width:100%;min-height:1px;padding-right:15px;padding-left:15px}
-            .col-6{max-width:50%}
-        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     </head>
     <body>
         <div class="container">
@@ -80,7 +28,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <table class="table table-bordered" border="1">
+                    <table class="table table-bordered" >
                         <tbody>
                             <tr>
                                 <td colspan="2" class="thead text-center">Identificação da Obra</td>
