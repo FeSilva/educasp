@@ -176,33 +176,48 @@
                                             $('#codigo_pi').mask('0000/00000');
                                             $('#codigo_predio').mask('00.00.000');
                                             $(".gs_avanco").hide();
+                                            
                                         });
 
-                                        /*$("#codigo_pi").change(function () {
+                                        $("#codigo_pi").change(function (e) {
                                             //function carrega predio.
-                                            $.ajax({
-                                                headers: {
-                                                    'X-CSRF-Token': $('input[name="_token"]').val()
-                                                },
-                                                type: 'POST',
-                                                url: "/carrega/pi",
-                                                data: 'codigoPi=' + $(this).val(),
-                                                success: function (data) {
+                                            if (e.target.value != undefined) {
+                                                chamarAjaxCodigoPI();
+                                            }
+                                        });
 
-                                                    var json = $.parseJSON(data);
-                                                    json.vistorias.sort().reverse();
+                                        function chamarAjaxCodigoPI() {
+                                            if ($("#tipo_vistoria").val() == 7 || $("#tipo_vistoria").val() == 8) {
+                                                $.ajax({
+                                                    
+                                                    headers: {
+                                                        'X-CSRF-Token': $('input[name="_token"]').val()
+                                                    },
+                                                    type: 'POST',
+                                                    url: "/carrega/pi",
+                                                    data: 'codigoPi=' + $('#codigo_pi').val(),
+                                                    success: function (data) {
+
+                                                        var json = $.parseJSON(data);
+                                                        json.vistorias.sort().reverse();
 
 
 
-                                                    $("#diretoria").val(json.predios[0].diretoria);
-                                                    $("#name_predio").val(json.predios[0].name);
-                                                    $('#codigo_predio').val(json.predios[0].codigo)
-                                                },
-                                                error: function () {
-                                                    alert('Por favor informe um código de processo de intervenção valido !');
-                                                }
-                                            });
-                                        });*/
+                                                        $("#diretoria").val(json.predios[0].diretoria);
+                                                        $("#name_predio").val(json.predios[0].name);
+                                                        $('#codigo_predio').val(json.predios[0].codigo)
+                                                    },
+                                                    error: function () {
+                                                        alert('Por favor informe um código de processo de intervenção valido !');
+                                                    }
+                                                });
+                                            } else {
+                                                $("#diretoria").val("");
+                                                $("#name_predio").val("");
+                                                $('#codigo_predio').val("")
+                                                return;
+                                            }
+                                        }
 
                                         $("#tipo_vistoria").change(function () {
                                             switch ($(this).val()) {
@@ -275,6 +290,7 @@
                                                     $("#file").hide();
 
                                                     $("#codigo_pi").removeAttr('readonly');
+                                                    chamarAjaxCodigoPI();
                                                     break;
                                                 case '8':
                                                     $("#orcamento_id").hide();
@@ -291,6 +307,7 @@
                                                     $("#file").show();
                                                     $("#codigo_predio").removeAttr('readonly');
                                                     $("#codigo_pi").removeAttr('readonly');
+                                                    chamarAjaxCodigoPI();
                                                     break;
                                             }
                                         });
