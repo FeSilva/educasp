@@ -1,6 +1,6 @@
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.0-beta2): popover.js
+ * Bootstrap (v5.0.1): popover.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -77,16 +77,8 @@ class Popover extends Tooltip {
     return NAME;
   }
 
-  static get DATA_KEY() {
-    return DATA_KEY;
-  }
-
   static get Event() {
     return Event;
-  }
-
-  static get EVENT_KEY() {
-    return EVENT_KEY;
   }
 
   static get DefaultType() {
@@ -121,7 +113,7 @@ class Popover extends Tooltip {
   }
 
   _getContent() {
-    return this._element.getAttribute('data-mdb-content') || this.config.content;
+    return this._element.getAttribute('data-mdb-content') || this._config.content;
   }
 
   _cleanTipClass() {
@@ -136,7 +128,7 @@ class Popover extends Tooltip {
 
   static jQueryInterface(config) {
     return this.each(function () {
-      let data = Data.getData(this, DATA_KEY);
+      let data = Data.get(this, DATA_KEY);
       const _config = typeof config === 'object' ? config : null;
 
       if (!data && /dispose|hide/.test(config)) {
@@ -145,7 +137,7 @@ class Popover extends Tooltip {
 
       if (!data) {
         data = new Popover(this, _config);
-        Data.setData(this, DATA_KEY, data);
+        Data.set(this, DATA_KEY, data);
       }
 
       if (typeof config === 'string') {
@@ -166,6 +158,6 @@ class Popover extends Tooltip {
  * add .Popover to jQuery only if jQuery is present
  */
 
-defineJQueryPlugin(NAME, Popover);
+defineJQueryPlugin(Popover);
 
 export default Popover;
