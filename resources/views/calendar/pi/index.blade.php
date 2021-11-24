@@ -41,7 +41,8 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 locale: 'pt-br',
                 initialView: 'dayGridMonth',
-                events: events
+                events: events,
+                initialDate: events[0]['start'].replace(/(\d{2}-\d{2}-\d{2})/, '$1')
             });
             calendar.render();
         });

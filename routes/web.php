@@ -144,33 +144,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/viewEmail','ListaEnvioMultiplosController@viewEmail')->name('listaenviosMultiplos.viewEmail');
     });
 
-
-
-    Route::prefix('protocolos')->namespace('App\Http\Controllers')->group(function() {
-        Route::get('/', 'ProtocoloController@index')->name('protocolos.index');
-        Route::get('/cadastro', 'ProtocoloController@store')->name('protocolos.store');
-        Route::post('/create', 'ProtocoloController@create')->name('protocolos.create');
-        Route::get('/edit/{id}', 'ProtocoloController@edit')->name('protocolos.edit');
-        Route::get('/pdf/{id}','ProtocoloController@pdf')->name('protocolo.pdf');
-        Route::get('/update/{id}','ProtocoloController@update')->name('protocolo.update');
-        Route::delete('/delete/{id}','ProtocoloController@destroy')->name('protocolo.delete');
-    });
-
-
-    Route::prefix('protocolos/multiplos')->namespace('App\Http\Controllers')->group(function() {
-        Route::get('/', 'ProtocoloMultiplosController@index')->name('protocolosMultiplos.index');
-        Route::get('/cadastro', 'ProtocoloMultiplosController@store')->name('protocolosMultiplos.store');
-        Route::post('/create', 'ProtocoloMultiplosController@create')->name('protocolosMultiplos.create');
-        Route::get('/edit/{id}', 'ProtocoloMultiplosController@edit')->name('protocolosMultiplos.edit');
-        Route::get('/pdf/{id}','ProtocoloMultiplosController@pdf')->name('protocolosMultiplos.pdf');
-        Route::get('/update/{id}','ProtocoloMultiplosController@update')->name('protocolosMultiplos.update');
-        Route::delete('/delete/{id}','ProtocoloMultiplosController@destroy')->name('protocolosMultiplos.delete');
-
-
-        //Segurança do trabalho
-        Route::post('/update-st','ProtocoloMultiplosController@AprovarVistoriasST')->name('protocolosMultiplos.update-st');
-    });
-
     //Rotas de Pesquisa
     Route::prefix('carrega')->namespace('App\Http\Controllers')->group(function() {
         Route::post('/predio','CarregaController@predios')->name('carrega.predio');
@@ -201,9 +174,32 @@ Route::group(['middleware' => 'auth'], function () {
     //Documentos
     Route::prefix('documents')->namespace('App\Http\Controllers')->group(function() {
         Route::get('os', 'DocumentController@index')->name('documents.os');
-    });
 
-});
+        Route::prefix('protocolos')->group(function() {
+            Route::get('/', 'ProtocoloController@index')->name('protocolos.index');
+            Route::get('/cadastro', 'ProtocoloController@store')->name('protocolos.store');
+            Route::post('/create', 'ProtocoloController@create')->name('protocolos.create');
+            Route::get('/edit/{id}', 'ProtocoloController@edit')->name('protocolos.edit');
+            Route::get('/pdf/{id}','ProtocoloController@pdf')->name('protocolo.pdf');
+            Route::get('/update/{id}','ProtocoloController@update')->name('protocolo.update');
+            Route::delete('/delete/{id}','ProtocoloController@destroy')->name('protocolo.delete');
+
+        
+            Route::prefix('multiplos')->group(function() {
+                Route::get('/', 'ProtocoloMultiplosController@index')->name('protocolosMultiplos.index');
+                Route::get('/cadastro', 'ProtocoloMultiplosController@store')->name('protocolosMultiplos.store');
+                Route::post('/create', 'ProtocoloMultiplosController@create')->name('protocolosMultiplos.create');
+                Route::get('/edit/{id}', 'ProtocoloMultiplosController@edit')->name('protocolosMultiplos.edit');
+                Route::get('/pdf/{id}','ProtocoloMultiplosController@pdf')->name('protocolosMultiplos.pdf');
+                Route::get('/update/{id}','ProtocoloMultiplosController@update')->name('protocolosMultiplos.update');
+                Route::delete('/delete/{id}','ProtocoloMultiplosController@destroy')->name('protocolosMultiplos.delete');
+        
+        
+                //Segurança do trabalho
+                Route::post('/update-st','ProtocoloMultiplosController@AprovarVistoriasST')->name('protocolosMultiplos.update-st');
+            });
+        });
+    });
 
 
 
