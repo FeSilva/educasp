@@ -201,7 +201,7 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
-
+});
 
 //Rederização de pagina.
 Route::group(['middleware' => 'auth'], function () {

@@ -177,12 +177,10 @@
                                         <th>PI</th>
                                         <th>Data Abertura</th>
                                         <th>Contratual</th>
-                                        <th>Qtde Contratual</th>
-                                        <th>Previsão</th>
-                                        <th>Qtde Previsão</th>
-                                        <th>Cadastradas</th>
-                                        <th>Aprovadas</th>
-                                        <th>Em aprovação</th>
+                                        <th>Prazo</th>
+                                        <th>Total</th>
+                                        <th>Total Enviadas</th>
+                                        <th>Saldo</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -195,11 +193,9 @@
                                                 <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ date('d/m/Y', strtotime($pi->inicio_obra)) }}</a></td>
                                                 <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ date('d/m/Y', strtotime($pi->Contratual)) }}</a></td>
                                                 <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->qtd_atual }}</a></td>
-                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->previsao ? date('d/m/Y', strtotime($pi->previsao)) : '' }}</a></td>  
-                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->qtde_previsao }}</a></td>
-                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->cadastradas }}</a></td>
-                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->falta_envio }}</a></td>
-                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->aguardando_Retrono }}</a></td>
+                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->total }}</a></td>  
+                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->enviados }}</a></td>
+                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->saldo }}</a></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
