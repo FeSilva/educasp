@@ -191,7 +191,7 @@
                                             $codigo = str_replace('/', '', $pi->codigo);
                                         @endphp
                                         <tr>
-                                            <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->total }}</a></td>
+                                            <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;"><strong>{{ $pi->total }}</strong></a></td>
                                             <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->codigo }}</a></td>
                                             <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ date('d/m/Y', strtotime($pi->inicio_obra)) }}</a></td>
                                             <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ date('d/m/Y', strtotime($pi->Contratual)) }}</a></td>
@@ -203,7 +203,7 @@
                                             <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->qtd_atual }}</a></td>
                                             <td>{{ $pi->qtde_previsao }}</td>
                                             <td>{{ $pi->enviados }}</td>
-                                            <td>{{ $pi->saldo }}</td>
+                                            <td><strong>{{ $pi->saldo }}</strong></td>
                                         </tr>
                                     @endforeach
                                     </tbody>
