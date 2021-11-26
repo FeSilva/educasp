@@ -36,10 +36,7 @@ class ZipArchiveMultiplosController extends Controller
                 $fileinfo = pathinfo($archive);
                 $file = $zip->getFromName($fileinfo['basename']);
                 //Verificar se existe a vistoria no banco
-
-
                 $vistoria = VistoriasMultiplas::verifyIfVistoriaExists($fileinfo['filename']);
-
                 if (!isset($vistoria)) {
                     $logs = [
                         'user_id' => Auth()->user()->id,

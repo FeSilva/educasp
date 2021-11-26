@@ -31,7 +31,7 @@ class ZipArchiveController extends Controller
                 $file = $zip->getFromName($fileinfo['basename']);
 
                 //Verificar se existe a vistoria no banco
-                $vistoria = Vistoria::verifyIfVistoriaExists($fileinfo['filename']);
+                $vistoria = Vistoria::verifyIfVistoriaExists($file['filename']);
 
 
                 if (!$vistoria) {

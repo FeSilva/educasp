@@ -176,9 +176,9 @@ class ProtocoloController extends Controller
 
         }
 
-        return \PDF::loadView('vistorias.protocolosenvios.pdf', compact('aProtocolo'))
+        return \PDF::loadView('vistorias.protocolosenvios.pdf', compact('aProtocolo'))->stream();
             //p->setPaper('a4', 'landscape')
-            ->download('protocolo_' . $aProtocolo['protocolo']['codigo'] . '.pdf');
+            //->download('protocolo_' . $aProtocolo['protocolo']['codigo'] . '.pdf');
     }
 
 

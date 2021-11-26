@@ -63,9 +63,9 @@
             </li>
             @endif
             <li
-                    class="{{ $elementActive == 'vistoria' || $elementActive == 'vistorias' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' || $elementActive == 'protocolos' || $elementActive == 'upload-zip' || $elementActive == 'lista_envios' ?  'active' : '' }}">
+                    class="{{ $elementActive == 'vistoria' || $elementActive == 'vistorias' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca'|| $elementActive == 'upload-zip' || $elementActive == 'lista_envios' ?  'active' : '' }}">
                 @php
-                    $elementActive == 'vistoria' || $elementActive == 'vistorias' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' || $elementActive == 'protocolos' || $elementActive == 'upload-zip' || $elementActive == 'lista_envios' ? ($show = 'show') : ($show = '');
+                    $elementActive == 'vistoria' || $elementActive == 'vistorias' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' || $elementActive == 'upload-zip' || $elementActive == 'lista_envios' ? ($show = 'show') : ($show = '');
                 @endphp
                 <a data-toggle="collapse" aria-expanded="false" href="#vistorias">
                     <i class="nc-icon nc-single-copy-04"></i>
@@ -73,17 +73,12 @@
                 </a>
                 <div class="collapse {{ $show }}" id="vistorias">
                     <ul class="nav">
-                        <li class="{{ $elementActive == 'vistorias' || $elementActive == 'protocolos' || $elementActive == 'upload-zip' || $elementActive == 'lista_envios' ? 'active' : '' }}">
+                        <li class="{{ $elementActive == 'vistorias' || $elementActive == 'upload-zip' || $elementActive == 'lista_envios' ? 'active' : '' }}">
                             <ul class="nav">
 
                                 <li class="{{ $elementActive == 'vistorias' ? 'active' : '' }}">
                                     <a href="{{ route('page.index', 'vistorias') }}">
                                         <span class="sidebar-normal">{{ __(' - Cadastro de Vistoria ') }}</span>
-                                    </a>
-                                </li>
-                                <li class="{{ $elementActive == 'protocolos' ? 'active' : '' }}">
-                                    <a href="{{ route('page.index', 'protocolos') }}">
-                                        <span class="sidebar-normal">{{ __(' - Protocolo de Envio ') }}</span>
                                     </a>
                                 </li>
                                 <li class="{{ $elementActive == 'upload-zip' ? 'active' : '' }}">
@@ -147,9 +142,9 @@
             </li>
 
              <li
-                class="{{ $elementActive == 'vistoriaMultiplas' || $elementActive == 'protocolosMultiplos' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' || $elementActive == 'protocolos' || $elementActive == 'upload-zipMultiplos' || $elementActive == 'lista_envios_multiplos' ?  'active' : '' }}">
+                class="{{ $elementActive == 'vistoriaMultiplas' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' || $elementActive == 'upload-zipMultiplos' || $elementActive == 'lista_envios_multiplos' ?  'active' : '' }}">
                 @php
-                    $elementActive == 'vistoriaMultiplas' || $elementActive == 'protocolosMultiplos' || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' || $elementActive == 'protocolos' || $elementActive == 'upload-zipMultiplos' || $elementActive == 'lista_envios_multiplos' ? ($show = 'show') : ($show = '');
+                    $elementActive == 'vistoriaMultiplas'  || $elementActive == 'especificas' || $elementActive == 'unidade-movel' || $elementActive == 'seguranca' || $elementActive == 'upload-zipMultiplos' || $elementActive == 'lista_envios_multiplos' ? ($show = 'show') : ($show = '');
                 @endphp
                 <a data-toggle="collapse" aria-expanded="false" href="#vistoriaMultiplas">
                     <i class="nc-icon nc-single-copy-04"></i>
@@ -157,7 +152,7 @@
                 </a>
                 <div class="collapse {{ $show }}" id="vistoriaMultiplas">
                     <ul class="nav">
-                        <li class="{{ $elementActive == 'vistoriaMultiplas' || $elementActive == 'protocolosMultiplos' || $elementActive == 'upload-zipMultiplos' || $elementActive == 'lista_envios_multiplos' ? 'active' : '' }}">
+                        <li class="{{ $elementActive == 'vistoriaMultiplas' || $elementActive == 'upload-zipMultiplos' || $elementActive == 'lista_envios_multiplos' ? 'active' : '' }}">
                             <ul class="nav">
 
                                 <li class="{{ $elementActive == 'vistoriaMultiplas' ? 'active' : '' }}">
@@ -165,11 +160,7 @@
                                         <span class="sidebar-normal">{{ __(' - Cadastro de Vistoria Multiplas') }}</span>
                                     </a>
                                 </li>
-                                <li class="{{ $elementActive == 'protocolosMultiplos' ? 'active' : '' }}">
-                                    <a href="{{ route('page.index', 'protocolos/multiplos') }}">
-                                        <span class="sidebar-normal">{{ __(' - Protocolo de Envio ') }}</span>
-                                    </a>
-                                </li>
+                              
                                 <li class="{{ $elementActive == 'upload-zipMultiplos' ? 'active' : '' }}">
                                     <a href="{{ route('page.index', 'ziparchive/multiplos') }}">
                                         <span class="sidebar-normal">{{ __(' - Upload Zip ') }}</span>
@@ -230,6 +221,57 @@
                 </div>
             </li>
 
+            <li
+                class="{{ $elementActive == 'protocolos' || $elementActive == 'protocolosMultiplos' || $elementActive == 'os' ? 'active' : '' }}">
+
+                @php
+                    $elementActive == 'protocolos' || $elementActive == 'protocolosMultiplos' || $elementActive == 'os' ? ($show = 'show') : ($show = '');
+                @endphp
+                <a data-toggle="collapse" aria-expanded="false" href="#documents">
+                    <i class="nc-icon nc-badge"></i>
+                    <p>{{ __('Documentos') }}<b class="caret"></b></p>
+                </a>
+                <div class="collapse {{ $show }}" id="documents">
+                    <ul class="nav">
+
+                        <li class="{{ $elementActive == 'protocolos' || $elementActive == 'protocolosMultiplos' || $elementActive == 'os' ? 'active' : '' }}">
+                            @php
+                                $elementActive == 'protocolos' || $elementActive == 'protocolosMultiplos' || $elementActive == 'os' ? ($show = 'show') : ($show = '');
+                            @endphp
+                            <a data-toggle="collapse" aria-expanded="false" href="#protocolos">
+                                <i class="nc-icon nc-badge"></i>
+                                <p>{{ __('Protocolos') }}<b class="caret"></b></p>
+                            </a>
+                            <div class="collapse {{ $show }}" id="protocolos">
+                                <ul class="nav">
+
+                                    <li class="{{ $elementActive == 'protocolos' ? 'active' : '' }}">
+                                        <a href="{{ route('page.index', 'documents/protocolos') }}">
+                                            <span class="sidebar-normal">{{ __(' - Protocolo de Fiscalização ') }}</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="{{ $elementActive == 'protocolosMultiplos' ? 'active' : '' }}">
+                                        <a href="{{ route('page.index', 'documents/protocolos/multiplos') }}">
+                                            <span class="sidebar-normal">{{ __(' - Protocolos Multiplos ') }}</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+                        </li>
+
+                        <li class="{{ $elementActive == 'os' ? 'active' : '' }}">
+                            <a href="{{ route('page.index', 'OS') }}">
+                                <span class="sidebar-normal">{{ __(' - OS') }}</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+            
 
             <li class="{{ $elementActive == 'logs' ? ($show = 'show active') : ($show = '') }}">
                 <a data-toggle="collapse" aria-expanded="false" href="#logs">

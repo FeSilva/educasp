@@ -3,15 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 
 class DocumentController extends Controller
 {
     public function index()
     {
-
-        $pdf = PDF::loadView('documents.os', [])->setOptions(['defaultFont' => 'sans-serif']);
-        return $pdf->stream();
+        return \PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,'defaultFont' => 'sans-serif'])->loadView('documents.os', [])->stream();
     }
 }

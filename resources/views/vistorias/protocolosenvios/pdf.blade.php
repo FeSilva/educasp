@@ -19,13 +19,13 @@
     </style>
 </head>
 <body>
-
+{{ dd(storage_path('app/public/Logo_fde.jpg')) }}
 <table border="0">
     <tbody>
         <tr>
-            <td><img src="{{asset('paper').'/img/Logo_fde.jpg'}}" class="img-logo"></td>
+            <td><img src="{{storage_path('app/public/Logo_fde.jpg')}}" class="img-logo"></td>
 
-            <td><img src="{{asset('paper').'/img/logo_consorcio.jpg'}}" class="img-logo" style="margin-left: 15px;"></td>
+            <td><img src="{{storage_path('app/public/Logo_fde.jpg')}}" class="img-logo" style="margin-left: 15px;"></td>
 
         </tr>
     </tbody>
@@ -40,6 +40,8 @@
         <th>Código</th>
         <th>Data vistoria</th>
         <th colspan="2">Nome</th>
+
+
     </tr>
     </thead>
     <tbody>
@@ -53,8 +55,13 @@
     @empty
         <tr><td colspan="5">Nenhum resultado</td></tr>
     @endforelse
+
     </tbody>
 </table>
+
+
+
+
 <p>As vistorias acima elencadas/descritas foram analisadas e devidamente validadas pela supervisão de obras. Segue para aprovação :</p><br /><br />
 <p>{{$assinatura = "______________________________________"}}<br />
 GERENCIA DE OBRAS RESPONSÁVEL <br>AFFONSO COAN FILHO</p>
