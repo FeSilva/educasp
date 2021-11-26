@@ -226,16 +226,8 @@ class DashboardController extends Controller
         $itens = [];
         $calendarItens = DB::table('calendario_pi')->get();
         foreach ($calendarItens as $key => $item) {
-            if ($item->diferenca_emDias < 0) {
-                $calendarItens[$key]->previsao = null;
-                $calendarItens[$key]->qtde_previsao = null;
-            } else {
-                //Transformar qtde de dias em meses
-                $meses = $item->diferenca_emDias / 22;
-                $qtde_vistorias_mais = (int) round($meses * 4);
-
-                $calendarItens[$key]->qtde_previsao = $qtde_vistorias_mais;
-            }
+            $calendarItens[$key]->total = $item->qtd_atual + $item->diferenca_emDias;
+            $calendarItens[$key]->saldo = $calendarItens[$key]->total - $item->enviados;
 
             $itens[] = $calendarItens[$key];
         }
