@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UploadZipRequest;
 use Illuminate\Support\Facades\Log;
 use App\Models\UploadLog;
+use Illuminate\Support\Facades\DB;
 use ZipArchive;
-use DB;
 
 class ZipArchiveController extends Controller
 {
@@ -32,16 +32,21 @@ class ZipArchiveController extends Controller
             $fileinfo = pathinfo($archive);
             $file = $zip->getFromName($fileinfo['basename']);
             $vistoria = Vistoria::verifyIfVistoriaExists($fileinfo['filename']);
-            //Logs caso a vistoria não tenha sido encontrada
-            $this->logs($vistoria, 'vistoria', $fileinfo);
-            $filePath = $this->saveFileAndCreateDirectory($fileinfo['filename'], $vistoria->pi->User[0]->cod_user_fde, $file);
-            //Logs caso não seja possivel gravar o arquivo no sistema
-            $this->logs($filePath, 'filepath', $fileinfo);
-            $vistoria->update(['arquivo' => $filePath, 'status' => 'Aprovado']);
+
+            if (empty($vistoria)) {
+                //Logs caso a vistoria não tenha sido encontrada
+                $this->logs($vistoria, 'vistoria', $fileinfo);
+            } else {
+                $filePath = $this->saveFileAndCreateDirectory($fileinfo['filename'], $vistoria->pi->User[0]->cod_user_fde, $file);
+                //Logs caso não seja possivel gravar o arquivo no sistema
+                $this->logs($filePath, 'filepath', $fileinfo);
+                $vistoria->update(['arquivo' => $filePath, 'status' => 'Aprovado']);
+                Log::info('Upload realizado com sucesso: '.$filePath);
+            }
             DB::commit();
             $this->logs('', 'aprovado', $fileinfo);
         }
-        Log::info('Upload realizado com sucesso: '.$filePath);
+        
         session()->flash('success', 'Upload Realizado com sucesso!');
         return redirect()->back();
     }

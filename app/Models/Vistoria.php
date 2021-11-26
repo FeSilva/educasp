@@ -133,8 +133,10 @@ class Vistoria extends Model
     }
     public static function verifyIfVistoriaExists($piCod)
     {
-        $data = date('Y-m-d', strtotime(preg_replace('/\./', '-', explode('_', $piCod))));
-        $piCod = substr($piCod, 0, 4) . '/' . substr($piCod, 4, 5);
+        //Transformando em um array
+        $piCod = preg_replace('/\./', '-', explode('_', $piCod));
+        $data = date('Y-m-d', strtotime($piCod[2]));
+        $piCod = substr($piCod[1], 0, 4) . '/' . substr($piCod[1], 4, 5);
          return self::with('pi')
                     ->with('pi.User')
                     ->where('codigo', $piCod)
