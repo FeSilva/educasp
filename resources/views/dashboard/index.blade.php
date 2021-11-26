@@ -171,33 +171,41 @@
                     <div class="modal-body">
                         <div class="col-md-12 col.sm-12">
                             <div class="table-responsive">
-                                <table class="table total-pi" id="total-pi" >
+                                <table class="table total-pi" id="total-pi">
                                     <thead>
                                     <tr>
+                                        <th>TOTAL</th>
                                         <th>PI</th>
                                         <th>Data Abertura</th>
                                         <th>Contratual</th>
-                                        <th>Prazo</th>
-                                        <th>Total</th>
-                                        <th>Total Enviadas</th>
-                                        <th>Saldo</th>
+                                        <th>Previsão</th>
+                                        <th>Qtde Contratual</th>
+                                        <th>Qtde Previsão</th>
+                                        <th>Enviadas</th>
+                                        <th>SALDO</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($return['calendarPis'] as $pi)
-                                        @php
+                                    @foreach($return['calendarPis'] as $pi)
+                                     @php
                                             $codigo = str_replace('/', '', $pi->codigo);
                                         @endphp
-                                            <tr>
-                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->codigo }}</a></td>
-                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ date('d/m/Y', strtotime($pi->inicio_obra)) }}</a></td>
-                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ date('d/m/Y', strtotime($pi->Contratual)) }}</a></td>
-                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->qtd_atual }}</a></td>
-                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->total }}</a></td>  
-                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->enviados }}</a></td>
-                                                <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->saldo }}</a></td>
-                                            </tr>
-                                        @endforeach
+                                        <tr>
+                                            <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->total }}</a></td>
+                                            <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->codigo }}</a></td>
+                                            <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ date('d/m/Y', strtotime($pi->inicio_obra)) }}</a></td>
+                                            <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ date('d/m/Y', strtotime($pi->Contratual)) }}</a></td>
+                                            <td>
+                                                <a href="calendar/pi">
+                                                    {{ $pi->previsao ? date('d/m/Y', strtotime($pi->previsao)) : '' }}
+                                                </a>
+                                            </td>
+                                            <td><a href="{{ route('calendar.list', $codigo) }}" style="color: #000;">{{ $pi->qtd_atual }}</a></td>
+                                            <td>{{ $pi->qtde_previsao }}</td>
+                                            <td>{{ $pi->enviados }}</td>
+                                            <td>{{ $pi->saldo }}</td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
