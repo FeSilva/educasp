@@ -43,46 +43,31 @@ class Vistoria extends Model
         'cod_medicao_ger',
         'tipo_id'
     ];
-
-
-
     public function AndamentoItems(){
         return $this->hasOne(VistoriaItemAndamento::class,'vistoria_id','id')->latest();
     }
-
-
     public function tipos()
     {
         return $this->hasOne(VistoriaTipo::class,'vistoria_tipo_id','tipo_id');
     }
-
-
     public function andamentos(){
         return $this->hasOne(VistoriaAndamentos::class ,'andamento_id','andamento_id');
     }
-
-
     public function ritmos()
     {
         return $this->hasOne(VistoriaRitmos::class, 'ritmo_id', 'ritmo_id');
     }
-
     public function pi(){
         return $this->hasOne(Pi::class, 'id','pi_id');
     }
-
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'cod_user_cadastro');
     }
-
-
-    public function createVistoriaAbertura($info,$filepath){
+    public function createVistoriaAbertura($info, $filepath)
+    {
         $pi = Pi::where('codigo', $info['codigo_pi'])->first();
         $items = Item::where('id_pi', $pi->id)->first();
-
-
-
         $returnCreate= $this->create([
             'pi_id' => $pi->id,
             'tipo_id' => $info['tipo_vistoria'],
@@ -92,12 +77,10 @@ class Vistoria extends Model
             'dt_vistoria' => $info['data_abertura'], //validar se é now(),
             'dt_cadastro' => now(), //validar campo
         ]);
-
         return $returnCreate->id;
     }
-
-
-    public function updateVistoriaAbertura($info){
+    public function updateVistoriaAbertura($info)
+    {
         $pi = Pi::where('codigo', $info['codigo_pi'])->first();
         $item = Item::where('id_pi', $pi->id)->first();
 
@@ -108,15 +91,11 @@ class Vistoria extends Model
             'dt_vistoria' => $info['data_abertura'], //validar se é now(),
             'dt_cadastro' => now(), //validar campo
         ]);
-
         return $returnCreate->id;
     }
-
-
-    public function createVistoria($info,$filepath){
+    public function createVistoria($info, $filepath)
+    {
         $pi = Pi::where('codigo', $info['codigo_pi'])->with('User')->first();
-
-
         $returnCreate= $this->create([
             'pi_id' => $pi->id,
             'tipo_id' => $info['tipo_vistoria'],
@@ -133,40 +112,34 @@ class Vistoria extends Model
             'prev_termino' => $info['prev_termino'],
             'cod_user_cadastro' => Auth()->user()->id//validar campo
         ]);
-
         return $returnCreate->id;
     }
-
-    public function updateVistoria($info){
+    public function updateVistoria($info)
+    {
         $pi = Pi::where('codigo', $info['codigo_pi'])->with('User')->first();
 
-        $returnUpdate = $this->where('id',$info['id'])->update([
+        $returnUpdate = $this->where('id', $info['id'])->update([
             'pi_id' => $pi->id,
             'tipo_id' => $info['tipo_vistoria'],
             'codigo'    => $info['codigo_pi'],
             'dt_vistoria' => $info['data_lo'], //validar se é now(),
-            'avanco_fisico'=> str_replace('%',"",str_replace(',','.',$info['media_global'])),
+            'avanco_fisico'=> str_replace('%', "", str_replace(',', '.', $info['media_global'])),
             'dt_cadastro' => now(), //validar campo
             'cod_fiscal_pi'=> $pi->user[0]->id,
             'funcionarios' => $info['funcionario'],
             'cod_user_cadastro' => Auth()->user()->id//validar campo
         ]);
-
         return $returnUpdate;
     }
-
     public static function verifyIfVistoriaExists($piCod)
     {
-
         $data = date('Y-m-d', strtotime(preg_replace('/\./', '-', explode('_', $piCod))));
         $piCod = substr($piCod, 0, 4) . '/' . substr($piCod, 4, 5);
-
          return self::with('pi')
                     ->with('pi.User')
                     ->where('codigo', $piCod)
                     ->where('dt_vistoria', $data)
-                    ->where('status','cadastro')
+                    ->where('status', 'cadastro')
                     ->first();
-
     }
 }

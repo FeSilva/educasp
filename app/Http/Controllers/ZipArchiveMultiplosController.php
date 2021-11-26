@@ -23,75 +23,85 @@ class ZipArchiveMultiplosController extends Controller
 
     public function descompactZip(UploadZipRequest $request)
     {
+        dd("teste");
         $file = $request->file('zipArchive');
         $uploadLog = new UploadLog();
         $zip = new ZipArchive();
         $logs = null;
-
         DB::beginTransaction();
-
         if ($zip->open($file) === true) {
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 $archive = $zip->getNameIndex($i);
                 $fileinfo = pathinfo($archive);
                 $file = $zip->getFromName($fileinfo['basename']);
+     
                 //Verificar se existe a vistoria no banco
                 $vistoria = VistoriasMultiplas::verifyIfVistoriaExists($fileinfo['filename']);
-                if (!isset($vistoria)) {
-                    $logs = [
-                        'user_id' => Auth()->user()->id,
-                        'arquivo' => $fileinfo['filename'],
-                        'status' => 'Vistoria não encontrada.',
-                        'data_envio' => date('Y-m-d H:i:s')
-                    ];
-                    $uploadLog->storeLog($logs);
-                    Log::info('Existem vistorias que não foram encontradas !: ' . $fileinfo['filename']);
-                    session()->flash('error', 'Existem vistorias que não foram encontradas !: ' . $fileinfo['filename']);
-                    continue;
-                }
-
+                if ($this->logs($vistoria, 'vistoria', $fileinfo) === false)continue;
+                
                 $filePath = $this->saveFileAndCreateDirectory($fileinfo['filename'], $file, $vistoria);
-
-                if (empty($filePath)) {
-
-                    $logs = [
-                        'user_id' => Auth()->user()->id,
-                        'arquivo' => $file,
-                        'status' => 'Não foi possivel gravar arquivo no sistema.',
-                        'data_envio' => date('Y-m-d H:i:s')
-                    ];
-
-                    Log::info('Não foi possivel gravar arquivo no sistema: ' . $file);
-                    session()->put('error', 'Não foi possivel gravar arquivo no sistema: ' . $file);
-                    $uploadLog->storeLog($logs);
-                    return redirect()->back();
-                }
-
-
+                $this->logs($filePath, 'filepath', $fileinfo);
+                if ($this->logs($vistoria, 'vistoria', $fileinfo) === false)continue;
                 $vistoria->update(['arquivo' => $filePath, 'status' => 'Aprovado']);
-
                 DB::commit();
-                Log::info('Upload realizado com sucesso: ' . $filePath);
+                $this->logs('', 'aprovado', $fileinfo);
             }
-
-
-            session()->flash('success', 'Upload Realizado com sucesso!');
-
-        } else {
-
-            $logs = [
-                'user_id' => Auth()->user()->id,
-                'arquivo' => $file,
-                'status' => 'Falha ao abrir zip !',
-                'data_envio' => date('Y-m-d H:i:s')
-            ];
-
-            $uploadLog->storeLog($logs);
-            session()->flash('error', 'Ocorreu um erro ao fazer o upload do arquivo!');
-            DB::reset();
+        }else {
+            $this->logs($file, 'falha', $file);
+            return redirect()->back();
         }
-
         return redirect()->back();
+    }
+    private function logs($data, $type, $fileinfo)
+    {
+        $uploadLog = new UploadLog();
+        switch ( $data )
+        {
+            case !$data and $type == 'vistoria': //Vistorias não encontradas
+                $logs = [
+                    'user_id' => Auth()->user()->id,
+                    'arquivo' => $fileinfo['filename'],
+                    'status' => 'Vistoria não encontrada.',
+                    'data_envio' => date('Y-m-d H:i:s')
+                ];
+                $uploadLog->storeLog($logs);
+                session()->put('error', 'Existem vistorias que não foram encontradas !: '.$fileinfo['filename']);
+                return false;
+                break;
+            case !$data and $type == 'filepath'://Nao foi possivel gravar no sistema
+                $logs = [
+                    'user_id' => Auth()->user()->id,
+                    'arquivo' => $fileinfo['filename'],
+                    'status' => 'Não foi possivel gravar arquivo no sistema.',
+                    'data_envio' => date('Y-m-d H:i:s')
+                ];
+                Log::info('Não foi possivel gravar arquivo no sistema: '.$fileinfo['filename']);
+                session()->put('error', 'Não foi possivel gravar arquivo no sistema: '.$fileinfo['filename']);
+                return false;
+                break;
+            case !$data and $type == 'aprovado'://Vistorias Aprovadas
+                $logs = [
+                    'arquivo' => $fileinfo['filename'],
+                    'status' => 'Aprovado',
+                    'data_envio' => date('Y-m-d H:i:s')
+                ];
+                Log::info('Aprovado: '.$filePath);
+                $uploadLog->storeLog($logs);
+                return true;
+                break;
+            default://Erro ao abrir zip.
+                $logs = [
+                    'user_id' => Auth()->user()->id,
+                    'arquivo' => 'LO_'.$fileinfo,
+                    'status' => 'Falha ao abrir zip !',
+                    'data_envio' => date('Y-m-d H:i:s')
+                ];
+                DB::reset();
+                $uploadLog->storeLog($logs);
+                flash()->put('error', 'Ocorreu um erro ao fazer o upload do arquivo!');
+                break;
+        }
+        return true;
     }
 
     private function saveFileAndCreateDirectory($fileName, $file, $vistoria)

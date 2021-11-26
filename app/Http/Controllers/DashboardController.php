@@ -240,7 +240,6 @@ class DashboardController extends Controller
 
             $itens[] = $calendarItens[$key];
         }
-
         return $itens;
     }
 

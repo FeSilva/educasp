@@ -33,8 +33,8 @@ class VistoriasMultiplas extends Model
 
     public static function verifyIfVistoriaExists($piCod)
     {
-        return  self::where('name_archive', $piCod)
-            ->where('status','!=','enviado')
+        return self::where('name_archive', $piCod)
+            ->where('status', '!=', 'enviado')
             ->first();
     }
 }
