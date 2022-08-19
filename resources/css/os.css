@@ -1,0 +1,51 @@
+table .table-borderd {
+    border: 1px solid #CCC;
+}
+.divisor {
+    height: 5px;
+    background-color: black;
+    width: 100%;
+    margin: 20px 0;
+}
+
+table tr td {
+    text-transform: uppercase;
+}
+
+table .thead {
+    font-weight: bold;
+}
+
+.assinatura {
+    margin-top: 200px;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-top: 1px solid #444;
+    max-width: 300px;
+}
+
+.data, .de_acordo {
+    font-weight: bold;
+    margin-top: 40px;
+}
+
+.data .divisor_data {
+    padding: 0 20px;
+}
+
+.assinatura_supervisao, .assinatura_gerencia {
+    margin-top: 100px;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-top: 1px solid #444;
+    max-width: 300px;
+}
+
+.assinatura_gerencia_span {
+    position: relative;
+    top: 80px;
+}
+
+.assinatura_gerencia {
+    margin-top: 80px;
+}

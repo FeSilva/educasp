@@ -1,0 +1,30 @@
+SELECT 
+tipos.name AS tipo,
+pis.codigo AS codigo_pi,
+predios.name AS nname_predio,
+vistorias.dt_vistoria AS data_Vistoria
+FROM vistorias
+INNER JOIN vistoria_tipos AS tipos ON tipos.vistoria_tipo_id = vistorias.tipo_id
+INNER JOIN pis ON pis.id = vistorias.pi_id
+INNER JOIN predios ON predios.id = pis.id_predio
+WHERE 
+medicao_id = '11'
+AND
+cod_fiscal_pi = '31'
+GROUP BY TIPO
+
+UNION 
+
+SELECT 
+tipos.name AS TIPO,
+pis.codigo AS codigo_pi,
+predios.name AS nname_predio,
+vistorias.dt_vistoria AS data_Vistoria
+FROM vistorias
+INNER JOIN vistoria_tipos AS tipos ON tipos.vistoria_tipo_id = vistorias.tipo_id
+LEFT JOIN pis ON pis.id = vistorias.pi_id
+LEFT JOIN predios ON predios.id = pis.id_predio
+WHERE 
+medicao_id = '11'
+AND
+cod_fiscal_pi = '31'
