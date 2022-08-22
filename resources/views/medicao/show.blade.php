@@ -156,6 +156,7 @@
                 },
                 success: function (data) {
                     $('#loading').modal('hide');
+                    document.location.reload(true);
                 },
                 error: function(error){
                     alert(error);
