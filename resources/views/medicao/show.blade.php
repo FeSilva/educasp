@@ -122,7 +122,7 @@
         </div>
     </div>
 </div>
-
+@component('components._loading') @endcomponent
 @push('scripts')
     <script type="text/javascript">
         $('.medicaoFiscais').DataTable({
