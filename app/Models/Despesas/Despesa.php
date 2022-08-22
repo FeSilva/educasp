@@ -13,6 +13,8 @@ class Despesa extends Model
     protected $primaryKey = 'id';
     protected $dates = ['deleted_at','created_at','updated_at'];
     protected $fillable = [
+        'medicao_id',
+        'fiscal_id',
         'dt_recibo',
         'amount', //Usuário criado
         'type',

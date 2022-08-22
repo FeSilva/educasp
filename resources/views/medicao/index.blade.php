@@ -86,11 +86,13 @@
             @endcomponent
         @endslot
     @endcomponent
-@endsection
+@endsection  
+@component('components._loading') @endcomponent
+  
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-
+          
         });
 
         function gerarMedicao()
@@ -111,9 +113,10 @@
                     dt_fim: dt_fim
                 },
                 beforeSend:function () {
-                    alert('Um medição já esta sendo castrada !')
+                    $('#loading').modal('show');
                 },
                 success: function(data) {
+                    $('#loading').modal('hide');
                     document.location.reload(true);
                 },
                 error: function(error) {

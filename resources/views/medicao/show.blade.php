@@ -151,8 +151,11 @@
                 type: 'POST',
                 url: "{{ route('medicao.fiscal.status') }}",
                 data: {medicao_fiscal_id: medicao_fiscal_id},
+                beforeSend: function () {
+                    $('#loading').modal('show');
+                },
                 success: function (data) {
-                    alert("sucesso");
+                    $('#loading').modal('hide');
                 },
                 error: function(error){
                     alert(error);

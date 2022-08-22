@@ -256,7 +256,7 @@ class MedicaoController extends Controller
     public function relatoryDespesas($fiscal_id, $medicao_id)
     {
         $despesasDetalhes = $this->service->returnTableInReport($medicao_id, $fiscal_id, true);
-        dd($despesasDetalhes);
+       
         foreach ($despesasDetalhes as $detalhes) {
             foreach ($detalhes as $types => $values) {
                 $listagem[$types] = $values;

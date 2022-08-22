@@ -2,7 +2,7 @@
 'class' => '',
 'elementActive' => 'medicao'
 ])
-
+@component('components._loading') @endcomponent
 @section('content')
 
     @component('components._breadcrumb')
@@ -519,6 +519,7 @@
 </div>
 
 
+
 @push('scripts')
     <script>
         $(document).ready(function () {
@@ -547,7 +548,11 @@
                 type: 'POST',
                 url: "{{ route('medicao.fiscal.vistoriaetails') }}",
                 data: {tipo_id: tipo_id, medicao_id: {{ $medicao->medicao_id }}, fiscal_id: {{ $fiscal->id }}},
+                beforeSend: function () {
+                    $("#loading").modal('show');
+                },
                 success: function (data) {
+                    $('#loading').modal('hide');
                     $('#medir_vistorias').modal('show');
                     $("#detalhes_vistoria_body_disponiveis").html('');
                     $.each(data.disponiveis, function (index, valueDisponiveis) {
@@ -618,8 +623,11 @@
                 type: 'POST',
                 url: "{{ route('medicao.fiscal.medirVistoria') }}",
                 data: {medicao_id: {{ $medicao->medicao_id }},vistoria_id: vistoria_id, tipo_id: tipo_id},
+                beforeSend: function () {
+                    $('#loading').modal('show');    
+                },
                 success: function (data) {
-                    alert("Vistoria "+vistoria_id+" medida com sucesso");
+                    $('#loading').modal('hide');
                     //document.location.reload(true);
                 }
             });

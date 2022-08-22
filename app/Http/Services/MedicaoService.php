@@ -567,6 +567,7 @@ class MedicaoService
         $vistorias = $this->vistoriaModel
         ->whereBetween('dt_vistoria', [$medicao['dt_inicio'], $medicao['dt_fim']])
         ->whereIn('status', ['Aprovado', 'Enviado'])
+        ->where("medicao_id", "=", '0')
         ->update(['medicao_id' => $medicao_id]);
     
         $vistoriasMultiplas = $this->vistoriaMultiplasModel
@@ -632,7 +633,7 @@ class MedicaoService
               END) AS TotalPendentes,
               SUM(
                   CASE 
-                      WHEN (vistorias.medicao_id IS NULL OR vistorias.medicao_id = 0) AND vistorias.dt_vistoria <= '$medicao[dt_fim]' AND vistorias.status NOT IN ('Aprovado','Enviado')   THEN  vistoria_tipos.price
+                      WHEN (vistorias.medicao_id IS NULL OR vistorias.medicao_id = 0) AND vistorias.dt_vistoria <= '$medicao[dt_fim]' AND vistorias.status NOT IN ('cadastro')   THEN  vistoria_tipos.price
                       ELSE 0
                   end) AS valorPendentes,
                   SUM(despesas.amount) as despesas
@@ -670,12 +671,12 @@ class MedicaoService
                       ELSE 0
                   end) AS valorDisponivel,
                SUM(CASE
-                  when (vistorias_multiplas.medicao_id IS NULL OR vistorias_multiplas.medicao_id  = 0) AND vistorias_multiplas.dt_vistoria <= '$medicao[dt_fim]'  AND vistorias_multiplas.status NOT IN ('Aprovado','Enviado')   then 1 
+                  when (vistorias_multiplas.medicao_id IS NULL OR vistorias_multiplas.medicao_id  = 0) AND vistorias_multiplas.dt_vistoria <= '$medicao[dt_fim]'  AND vistorias_multiplas.status NOT IN ('cadastro')   then 1 
                   ELSE 0
               END) AS TotalPendentes,
               SUM(
                   CASE 
-                      WHEN (vistorias_multiplas.medicao_id IS NULL OR vistorias_multiplas.medicao_id = 0) AND vistorias_multiplas.dt_vistoria <= '$medicao[dt_fim]' AND vistorias_multiplas.status NOT IN ('Aprovado','Enviado')   THEN  vistoria_tipos.price
+                      WHEN (vistorias_multiplas.medicao_id IS NULL OR vistorias_multiplas.medicao_id = 0) AND vistorias_multiplas.dt_vistoria <= '$medicao[dt_fim]' AND vistorias_multiplas.status NOT IN ('cadastro')   THEN  vistoria_tipos.price
                       ELSE 0
                   end) AS valorPendentes,
                   SUM(despesas.amount) as despesas
