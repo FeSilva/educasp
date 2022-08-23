@@ -59,7 +59,13 @@
             <p>Periodo entre {{ date_format($inicio, 'd/m/Y') }} Até {{ date_format($fim, 'd/m/Y') }} - {{ $medicao->name }}</p>
         </div>
     </div>
+
     @foreach ($listagem as $key => $results)
+    @php 
+        $count = 1;
+        $amountTotal = 0;
+        $qtdTotal = 0;
+    @endphp
             <div class="row">
                 <div class="col-12">
                     <h3>{{ $key == 'realizadas' ? 'Vistorias Realizadas' : 'Despesas' }}</h3>
@@ -67,11 +73,7 @@
             </div>      
             <div class="row">
                 <div class="col-md-12">
-                    @php 
-                        $count = 1;
-                        $amountTotal = 0;
-                        $qtdTotal = 0;
-                    @endphp
+                    
                     <table class="table" id="customers" style="
                                 padding: 0.5rem;
                                 text-align: center;">
@@ -83,7 +85,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                    
+                            
                             @foreach($results['table']['tbody'] as $keyBody => $column)
 
                                 @if ($key == 'despesas')

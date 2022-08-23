@@ -736,6 +736,7 @@ class MedicaoService
             foreach ($returns as $type => $values) {
                 $return[] = $this->colunsGetteTypes($values, $type);
             }
+   
             return $return;
         }
         $fields = $this->repository->relatoryMedicoes($medicao_id, $fiscal_id);

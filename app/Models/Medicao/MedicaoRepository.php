@@ -271,14 +271,11 @@ class MedicaoRepository
         date_format(vistorias_multiplas.dt_vistoria,'%d/%m/%Y') AS data_vistoria
         FROM vistorias_multiplas 
         LEFT JOIN pis ON pis.id = vistorias_multiplas.pi_id
-        LEFT JOIN predios ON predios.id = pis.id_predio
+        LEFT JOIN predios ON predios.id = vistorias_multiplas.predio_id
         INNER JOIN vistoria_tipos AS tipos ON tipos.vistoria_tipo_id = vistorias_multiplas.tipo_id
         WHERE medicao_id =  '$medicao_id'  AND fiscal_user_id = '$fiscal_id'
         ");
         $despesas = $this->despesaModel->where("medicao_id", $medicao_id)->where("fiscal_id", $fiscal_id)->get();
-
-        //$pendentes =
-        
         return [
             'realizadas' => $vistorias_realizadas,
             'despesas' => $despesas
