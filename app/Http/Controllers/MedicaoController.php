@@ -195,7 +195,7 @@ class MedicaoController extends Controller
     {
         try {
             $this->service->updateDespesa($request->except("_token"));
-            return redirect("/medicao/show/{$request->post('medicao_update_id')}/fiscal/{$request->post('fiscal_id')}/show")->with('success', 'Despesa Atualizada com Sucesso !!');
+            return redirect("/medicao/show/{$request->post('medicao_update_id')}/fiscal/{$request->post('fiscal_id')}/show/I")->with('success', 'Despesa Atualizada com Sucesso !!');
         } catch (\Exception $e) {
             return $e->getMessage();
         }
