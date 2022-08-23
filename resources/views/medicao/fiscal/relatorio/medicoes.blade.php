@@ -62,12 +62,13 @@
             <p>Periodo entre <strong>{{ date_format($inicio, 'd/m/Y') }}</strong> Até <strong>{{ date_format($fim, 'd/m/Y') }}</strong></p>
         </div>
     </div>
+ 
+    @foreach ($medicoesDetalhes['table']['tbody'] as $tipo => $tbody)
     @php 
         $count = 1;
         $amountTotal = 0;
         $qtdTotal = 0;
     @endphp
-    @foreach ($medicoesDetalhes['table']['tbody'] as $tipo => $tbody)
             <div class="row">
                 <div class="col-12">
                     <h3>{{ $tipo }}</h3>

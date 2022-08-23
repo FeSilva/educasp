@@ -150,8 +150,6 @@ class MedicaoRepository
             INNER JOIN users ON users.id = vistorias.cod_fiscal_pi
             INNER JOIN vistoria_tipos ON vistoria_tipos.vistoria_tipo_id = vistorias.tipo_id
             LEFT JOIN medicao ON medicao.medicao_id = vistorias.medicao_id
-            LEFT JOIN despesas_vistorias as vist_despesas ON vist_despesas.vistoria_id = vistorias.id
-            LEFT JOIN despesas  ON despesas.id = vist_despesas.despesa_id
             WHERE vistorias.cod_fiscal_pi = '$fiscal_id'
             GROUP BY tipo_id
             
@@ -217,8 +215,7 @@ class MedicaoRepository
             medicao_id = '$medicao_id'
             AND
             cod_fiscal_pi = '$fiscal_id'
-            GROUP BY TIPO
-            
+    
             UNION 
             
             SELECT 
@@ -226,13 +223,13 @@ class MedicaoRepository
             tipos.name AS tipo,
             pis.codigo AS codigo_pi,
             predios.name AS name_predio,
-            vistorias.dt_vistoria AS data_Vistoria,
+            vistorias_multiplas.dt_vistoria AS data_Vistoria,
             tipos.price as amount
-            FROM vistorias
-            INNER JOIN vistoria_tipos AS tipos ON tipos.vistoria_tipo_id = vistorias.tipo_id
-            LEFT JOIN pis ON pis.id = vistorias.pi_id
-            LEFT JOIN predios ON predios.id = pis.id_predio
-            WHERE medicao_id = '$medicao_id' AND cod_fiscal_pi = '$fiscal_id'
+            FROM vistorias_multiplas
+            INNER JOIN vistoria_tipos AS tipos ON tipos.vistoria_tipo_id = vistorias_multiplas.tipo_id
+            LEFT JOIN pis ON pis.id = vistorias_multiplas.pi_id
+            INNER JOIN predios ON (predios.id = pis.id_predio OR predios.id = vistorias_multiplas.predio_id)
+            WHERE medicao_id = '$medicao_id' AND fiscal_user_id = '$fiscal_id'
         ");
 
         $return = [];
@@ -256,6 +253,7 @@ class MedicaoRepository
         vistorias.codigo AS codigo,
         predios.name AS predio_name,
         tipos.name AS tipo_vistoria,
+        tipos.price as amount,
         date_format(vistorias.dt_vistoria,'%d/%m/%Y') AS data_vistoria
         FROM vistorias 
         INNER JOIN pis ON pis.id = vistorias.pi_id
@@ -269,6 +267,7 @@ class MedicaoRepository
         vistorias_multiplas.cod_pi AS codigo,
         predios.name AS predio_name,
         tipos.name AS tipo_vistoria,
+        tipos.price as amount,
         date_format(vistorias_multiplas.dt_vistoria,'%d/%m/%Y') AS data_vistoria
         FROM vistorias_multiplas 
         LEFT JOIN pis ON pis.id = vistorias_multiplas.pi_id

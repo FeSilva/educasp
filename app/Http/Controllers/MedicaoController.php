@@ -275,7 +275,7 @@ class MedicaoController extends Controller
             $data = $request->all();
             $file = $request->file('archive');
             $this->service->saveFile($data, $file);
-            return redirect("/medicao/show/{$data['medicao_id']}/fiscal/{$data['fiscal_id']}/show")->with('success', 'Anexos Cadastrado com Sucesso');
+            return redirect("/medicao/show/{$data['medicao_id']}/fiscal/{$data['fiscal_id']}/show/I")->with('success', 'Anexos Cadastrado com Sucesso');
         } catch (\Exception $e) {
             return $e->getMessage();
         }

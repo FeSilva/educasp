@@ -101,6 +101,7 @@
                                 @else
                                     @php 
                                         $qtdTotal++;
+                                        $amountTotal += $column->amount;
                                     @endphp
                                     <tr>
                                         <td>{{ $column->codigo }}</td>
