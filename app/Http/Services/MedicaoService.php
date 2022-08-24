@@ -607,7 +607,7 @@ class MedicaoService
         SUM(valorDisponivel) AS valor_disponivel,
         sum(TotalPendentes) AS total_pendente,
         SUM(valorPendentes) AS valor_pendente,
-        sum(despesas) as total_despesas
+        despesas as total_despesas
               FROM (
               SELECT 
               users.id AS fiscal_id,
