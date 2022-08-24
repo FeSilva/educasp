@@ -77,7 +77,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" align="center">Nenhum Registro Encontrado</td>
+                                    <td colspan="6" align="center">Nenhum Registro Encontrado</td>
                                 </tr>
                             @endforelse
                         @endslot
