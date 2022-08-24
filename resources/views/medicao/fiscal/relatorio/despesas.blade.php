@@ -80,7 +80,11 @@
                         <thead>  
                             <tr>
                                 @foreach($results['table']['theads'] as $keyTitles => $titles)
-                                <th>{{ $titles }}</th>
+                                    @if ($titles == 'Prédio')
+                                        <th colspan="2">{{ $titles }}</th>
+                                    @else 
+                                        <th >{{ $titles }}</th>
+                                    @endif
                                 @endforeach
                             </tr>
                         </thead>
@@ -106,7 +110,7 @@
                                         $amountTotal += $column->amount;
                                     @endphp
                                     <tr>
-                                        <td>{{  substr($column->predio_name,0 ,8) }}</td>
+                                        <td colspan="2">{{ $column->predio_name }}</td>
                                         <td>{{ $column->codigo }}</td>
                                         <td>{{ $column->tipo_vistoria }}</td>
                                         <td>{{ $column->data_vistoria }}</td>
@@ -115,7 +119,6 @@
                             @endforeach
                         </tbody>
                         <tfoot>
-                            
                             <tr>
                                 <td></td>
                                 <td align='center'><strong>Total:</strong></td>

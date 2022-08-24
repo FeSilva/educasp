@@ -82,11 +82,16 @@
                 
                     <table class="table" id="customers" style="
                                 padding: 0.5rem;
+                                width: 100%;
                                 text-align: center;">
                         <thead>  
                             <tr>
                                 @foreach($medicoesDetalhes['table']['theads'] as $key => $titles)
-                                <th>{{ $titles }}</th>
+                                    @if ($titles == 'Prédio')
+                                        <th colspan="2">{{ $titles }}</th>
+                                    @else 
+                                        <th >{{ $titles }}</th>
+                                    @endif
                                 @endforeach
                             </tr>
                         </thead>
@@ -98,14 +103,12 @@
                                     $dt_vistoria = date_create($column['data_vistoria']);
                                 @endphp
                                 <tr>
-                                    <td> {{ $count++ }}</td>
-                                    <td>{{ substr($column['predio'], 0, 8) }}</td>
+                                    <td colspan="2">{{ $column['predio'] }}</td>
                                     <td>{{ $column['codigo'] }}</td>
                                     <td>{{ date_format($dt_vistoria, 'd/m/Y') }}</td>
 
                                 </tr>
                                 @php $qtdTotal++ @endphp
-                              
                             @endforeach
                         </tbody>
                         <tfoot>

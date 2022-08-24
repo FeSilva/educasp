@@ -771,8 +771,8 @@ class MedicaoService
                 break;
             case 'realizadas':
                 $return[$type]['table']['theads'] = [
-                    'Código PI',
                     'Prédio',
+                    'Código PI',
                     'Tipo da Vistoria',
                     'Data da Vistoria'
                 ];
@@ -780,9 +780,8 @@ class MedicaoService
                 break;
             case 'default':
                 $return['table']['theads'] = [
-                    '#',
+                    'Prédio',
                     'Código PI',
-                    'Predio',
                     'Data da Vistoria'
                 ];
                 $return['table']['tbody'] = $data;
