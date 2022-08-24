@@ -149,7 +149,7 @@ Route::group(['middleware' => 'auth'], function () {
     //End Rotas de pesquisa
     //download
     Route::get('/storage-link', function () {
-        $artisanLink = Artisan::call('storage:link');
+        $artisanLink = Artisan::call('storage:link', []);
         return "Storage Link created :".$artisanLink;
     });
     //Documentos
@@ -227,8 +227,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/fiscal/anexos/create', [MedicaoController::class, 'createAnexos'])->name('medicao.fiscal.anexos');
         Route::get('/storage/{medicao_id}/{fiscal_id}/{filename}', function ($medicao_id, $fiscal_id, $filename) {
             $path = public_path("storage/archives/medicao/{$medicao_id}/fiscal/{$fiscal_id}/" . $filename);
-            echo $path;
-            die();
             if (!File::exists($path)) {
                 abort(404);
             }
