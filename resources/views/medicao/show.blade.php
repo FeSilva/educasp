@@ -57,7 +57,7 @@
                                         <td align="center"><span class="badge" style="font-size:12px;">{{ $fiscais->total_medido }}</span></td>
                                         <td align="center"><span class="badge" style="font-size:12px;">{{ $fiscais->total_disponivel }}</span></td>
                                         <td align="center"><span class="badge me-1 rounded-pill">R$ {{ number_format($fiscais->valor_medido, 2, ",", ".") }}</span></td>
-                                        <td align="center"><span class="badge me-1 rounded-pill">{{ number_format($fiscais->despesas, 2, '.', ",") }}</span></td>
+                                        <td align="center"><span class="badge me-1 rounded-pill">{{ number_format($fiscais->despesas, 2, ',', ".") }}</span></td>
                                         
                                         <td align="center" id="statuspan_{{ $fiscais->medicao_fiscal_id }}"><span class="badge me-1 bg-4" > {{  $fiscais->status == 'I' ? 'Iniciada' : 'Finalizada' }}</span></td>
                                         

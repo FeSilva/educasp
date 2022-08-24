@@ -99,8 +99,8 @@
                                 @endphp
                                 <tr>
                                     <td> {{ $count++ }}</td>
+                                    <td>{{ substr($column['predio'], 0, 8) }}</td>
                                     <td>{{ $column['codigo'] }}</td>
-                                    <td>{{ $column['predio'] }}</td>
                                     <td>{{ date_format($dt_vistoria, 'd/m/Y') }}</td>
 
                                 </tr>

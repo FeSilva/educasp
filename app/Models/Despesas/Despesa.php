@@ -15,6 +15,7 @@ class Despesa extends Model
     protected $fillable = [
         'medicao_id',
         'fiscal_id',
+        'n_recibo',
         'dt_recibo',
         'amount', //Usuário criado
         'type',

@@ -232,7 +232,7 @@
                                     <tr>
                                         <td></td>
                                         <td>
-                                            <a href={{  asset("{$anexo->path}{$anexo->name}.pdf") }} target="_blank">
+                                            <a href={{  asset("{$anexo->path}.pdf") }} target="_blank">
                                                 {{ $anexo->name }}
                                             </a>
                                         </td>
@@ -286,7 +286,7 @@
                         'size' => '3',
                         'type' => 'text',
                         'name' => 'amount',
-                        'id' => 'amount'
+                        'id' => 'amount_despesas'
 
                     ])@endcomponent
                
@@ -305,20 +305,11 @@
                 
                 @component('components.buttons._submit',[
                     'type' => 'button',
-                    'title' => 'Listar Vistorias',
+                    'title' => 'Buscar Vistorias',
                     'id' => 'gerarVistoriasDespesas',
                     'attributes' => "onClick=vistoriasDespesasList()"
                 ])
                 @endcomponent
-                @component('components.buttons._submit',[
-                    'type' => 'button',
-                    'title' => 'Criar Despesa',
-                    'idrow' => 'createDespesaRow',
-                    'id' => 'createDespesa',
-                    'attributes' => "onClick=createDespesas()"
-                ])
-                @endcomponent
-
                 @component('components._card', [
                     'title' => 'Vistorias - Fiscalização',
                 ])
@@ -340,6 +331,15 @@
                             @endcomponent
                         </div>
                     @endslot
+                @endcomponent
+
+                @component('components.buttons._submit',[
+                    'type' => 'button',
+                    'title' => 'Criar Despesa',
+                    'idrow' => 'createDespesaRow',
+                    'id' => 'createDespesa',
+                    'attributes' => "onClick=createDespesas()"
+                ])
                 @endcomponent
             </div>
         </div>
@@ -525,6 +525,13 @@
         $(document).ready(function () {
             $("#close-disponiveis").click(function (){
                 document.location.reload(true);
+            });
+            $("#amount").mask('#.##0,00', {
+                reverse: true
+            });
+
+            $("#amount_despesas").mask('#.##0,00', {
+                reverse: true
             });
         }); 
 
@@ -761,17 +768,20 @@
         function createDespesas()
         {
             var dt_recibo = $("#dt_recibo").val();
-            var amount = $("#amount").val();
+            var n_recibo = $("#n_recibo").val();
+            var amount = $("#amount_despesas").val();
             var type = $("#type option:selected").val();
             var vistorias_id = [];
             var tipos_id = [];
-            let checkbox_vistorias = $('input[type="checkbox"]');
+            let checkbox_vistorias = $('input[name="vistorias_despesa_check[]"]');
 
+            
             $.each(checkbox_vistorias, function (index, value) {
                 if ($(value).is(':checked')) {
                     var ids = $(value).val();
                     var tipo = $("#vistoria_tipo_"+ids).val();
-                    vistorias_id[tipo] = ids;
+                    vistorias_id[index] = ids;
+                    tipos_id[index] = tipo;
                 }
             });
 
@@ -784,10 +794,12 @@
                 data: {
                     dt_recibo: dt_recibo,
                     amount: amount,
+                    n_recibo: n_recibo,
                     type: type,
                     medicao_id: {{ $medicao->medicao_id }},
                     fiscal_id: {{ $fiscal->id }},
-                    vistorias_id:vistorias_id
+                    vistorias_id:vistorias_id,
+                    tipos_id:tipos_id
                 },
                 beforeSend: function (data) {
                     //

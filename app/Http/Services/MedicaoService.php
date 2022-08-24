@@ -473,13 +473,13 @@ class MedicaoService
      */
     public function createDespesa($data)
     {
-
         DB::beginTransaction();
 
         try {
             $despesa = $this->despesasModel->create([
                 'dt_recibo' => $data['dt_recibo'],
                 'amount' => $data['amount'],
+                'n_recibo' => $data['n_recibo'],
                 'medicao_id'=> $data['medicao_id'],
                 'fiscal_id' => $data['fiscal_id'],
                 'type' => $data['type'],
@@ -487,12 +487,12 @@ class MedicaoService
                 'created_at' => now()
             ]);
 
-            foreach ($data['vistorias_id'] as $type => $vistoria_id) {
+            foreach ($data['vistorias_id'] as $index => $vistoria_id) {
                 if (!empty($vistoria_id)) {
                     $despesa_vistorias = $this->despesasVistoriasModel->create([
                         'despesa_id' => $despesa->id,
                         'vistoria_id' => $vistoria_id,
-                        'type_id' => $type
+                        'type_id' => $data['tipos_id'][$index]
                     ]);
                 }
             }
@@ -521,19 +521,24 @@ class MedicaoService
                 'fiscal_id' => $data['fiscal_id'],
                 'type' => $data['type_update'],
             ]);
+
             $despesa =  $this->despesasModel->find($data['despesa_id']);
-            foreach ($data['vistorias_despesa_update_check'] as $type => $vistoria_id) {
+            foreach ($data['vistorias_despesa_update_check'] as $key => $vistoria_id) {
                 if (!empty($vistoria_id)) {
-                    $despesa_vistorias = $this->x->updateOrCreate([
+                    $despesa_vistorias = $this->despesasVistoriasModel->updateOrCreate(
+                        [
                         'despesa_id' => $despesa->id,
                         'vistoria_id' => $vistoria_id
-                        ], [
-                        'despesa_id' => $despesa->id,
-                        'vistoria_id' => $vistoria_id,
-                        'type_id' =>  $data['vistoria_tipo_update_'.$vistoria_id]
-                    ]);
+                        ],
+                        [
+                            'despesa_id' => $despesa->id,
+                            'vistoria_id' => $vistoria_id,
+                            'type_id' =>  $data['vistoria_tipo_update_'.$vistoria_id]
+                        ]
+                    );
                 }
             }
+
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -636,13 +641,15 @@ class MedicaoService
                       WHEN (vistorias.medicao_id IS NULL OR vistorias.medicao_id = 0) AND vistorias.dt_vistoria <= '$medicao[dt_fim]' AND vistorias.status NOT IN ('cadastro')   THEN  vistoria_tipos.price
                       ELSE 0
                   end) AS valorPendentes,
-                  SUM(despesas.amount) as despesas
+                    CASE 
+                        WHEN despesas.medicao_id ='$medicao_id' and despesas.fiscal_id = vistorias.cod_fiscal_pi then despesas.amount 
+                        ELSE 0
+                    END as despesas
               FROM vistorias 
-              LEFT JOIN vistoria_tipos ON vistoria_tipos.vistoria_tipo_id = vistorias.tipo_id
+              INNER JOIN vistoria_tipos ON vistoria_tipos.vistoria_tipo_id = vistorias.tipo_id
               INNER JOIN users ON users.id = vistorias.cod_fiscal_pi
               LEFT JOIN medicao ON medicao.medicao_id = vistorias.medicao_id
-              LEFT JOIN despesas_vistorias as vist_despesas ON (vist_despesas.vistoria_id = vistorias.id AND vist_despesas.type_id = vistorias.tipo_id)
-              LEFT JOIN despesas ON despesas.id = vist_despesas.despesa_id
+              LEFT JOIN despesas  ON despesas.fiscal_id = vistorias.cod_fiscal_pi
               GROUP by Fiscal
               
               UNION 
@@ -679,13 +686,15 @@ class MedicaoService
                       WHEN (vistorias_multiplas.medicao_id IS NULL OR vistorias_multiplas.medicao_id = 0) AND vistorias_multiplas.dt_vistoria <= '$medicao[dt_fim]' AND vistorias_multiplas.status NOT IN ('cadastro')   THEN  vistoria_tipos.price
                       ELSE 0
                   end) AS valorPendentes,
-                  SUM(despesas.amount) as despesas
+                    CASE 
+                        WHEN despesas.medicao_id ='$medicao_id' and despesas.fiscal_id = vistorias_multiplas.fiscal_user_id then despesas.amount 
+                        ELSE 0
+                    END as despesas
               FROM vistorias_multiplas
               INNER JOIN users ON users.id = vistorias_multiplas.fiscal_user_id
-              LEFT JOIN vistoria_tipos ON vistoria_tipos.vistoria_tipo_id = vistorias_multiplas.tipo_id
+              INNER JOIN vistoria_tipos ON vistoria_tipos.vistoria_tipo_id = vistorias_multiplas.tipo_id
               LEFT JOIN medicao ON medicao.medicao_id = vistorias_multiplas.medicao_id
-              LEFT JOIN despesas_vistorias as vist_despesas ON (vist_despesas.vistoria_id = vistorias_multiplas.id and vist_despesas.type_id = vistorias_multiplas.tipo_id)
-              LEFT JOIN despesas  ON despesas.id = vist_despesas.despesa_id
+              LEFT JOIN despesas  ON despesas.fiscal_id = vistorias_multiplas.fiscal_user_id
               GROUP by Fiscal
               ) t
               GROUP BY fiscal_name");

@@ -106,8 +106,8 @@
                                         $amountTotal += $column->amount;
                                     @endphp
                                     <tr>
+                                        <td>{{  substr($column->predio_name,0 ,8) }}</td>
                                         <td>{{ $column->codigo }}</td>
-                                        <td>{{ $column->predio_name }}</td>
                                         <td>{{ $column->tipo_vistoria }}</td>
                                         <td>{{ $column->data_vistoria }}</td>
                                     </tr>
