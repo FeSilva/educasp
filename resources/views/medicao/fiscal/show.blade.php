@@ -232,7 +232,7 @@
                                     <tr>
                                         <td></td>
                                         <td>
-                                            <a href={{  asset("{$anexo->path}.pdf") }} target="_blank">
+                                            <a href={{  asset("{$anexo->path}") }} target="_blank">
                                                 {{ $anexo->name }}
                                             </a>
                                         </td>
