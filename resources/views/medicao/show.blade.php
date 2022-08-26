@@ -31,6 +31,8 @@
                                 <th><span class="badge me-1 rounded-pill">Fiscal</span></th>
                                 <th><span class="badge me-1 rounded-pill">Total Medido</span></th>
                                 <th><span class="badge me-1 rounded-pill">Total Disponivel</span></th>
+                                <th><span class="badge me-1 rounded-pill">Total Pendentes</span></th>
+
                                 <th><span class="badge me-1 rounded-pill">R$ Valor</span></th>
                                 <th><span class="badge me-1 rounded-pill">Despesas</span></th>
                                 <th><span class="badge me-1 rounded-pill">Status</span></th>
@@ -43,6 +45,7 @@
                                     $totalDisponivel = 0;
                                     $totalValorMedido = 0;
                                     $totalDespesas = 0;
+                                    $totalPendentes = 0;
                                 @endphp
                                 @foreach($medicaoFiscais as $fiscais)
                                     @php 
@@ -50,12 +53,14 @@
                                         $totalDisponivel += $fiscais->total_disponivel;
                                         $totalValorMedido += $fiscais->valor_medido;
                                         $totalDespesas += $fiscais->despesas ?? 0;
+                                        $totalPendentes += $fiscais->total_pendente;
                                     @endphp
                                     <tr>
                                         <td>{{ $fiscais->medicao_fiscal_id }}</td>
                                         <td><span class="badge" style="font-size:12px;">{{ $fiscais->fiscal_name }}</span></td>
                                         <td align="center"><span class="badge" style="font-size:12px;">{{ $fiscais->total_medido }}</span></td>
                                         <td align="center"><span class="badge" style="font-size:12px;">{{ $fiscais->total_disponivel }}</span></td>
+                                        <td align="center"><span class="badge me-1 rounded-pill">{{ $fiscais->total_pendente }}</span></td>
                                         <td align="center"><span class="badge me-1 rounded-pill">R$ {{ number_format($fiscais->valor_medido, 2, ",", ".") }}</span></td>
                                         <td align="center"><span class="badge me-1 rounded-pill">{{ number_format($fiscais->despesas, 2, ',', ".") }}</span></td>
                                         
@@ -90,7 +95,9 @@
                                     <tr>
                                         <td colspan="2" align="center"><strong>Total:</strong></td>
                                         <td align="center"><span class="badge me-1 rounded-pill bg-primary">{{ $totalMedido }}</span></td>
-                                        <td align="center"><span class="badge me-1 rounded-pill bg-warning">{{ number_format($totalDisponivel, 2, ",", ".") }}</span></td>
+                                        <td align="center"><span class="badge me-1 rounded-pill bg-warning">{{ $totalDisponivel }}</span></td>
+                                        <td align="center"><span class="badge me-1 rounded-pill bg-danger">{{ $totalPendentes }}</span></td>
+
                                         <td align="center"><span class="badge me-1 rounded-pill bg-success">R$ {{ number_format($totalValorMedido, 2, ",", ".") }}</span></td>
                                         <td align="center"><span class="badge me-1 rounded-pill bg-success">R$ {{ number_format($totalDespesas, 2, ",", ".") }}</span></td>
                                         <td></td>

@@ -146,13 +146,13 @@ class MedicaoController extends Controller
                     $request->post("despesa_id")
                 );
 
-
-                $dt_recibo = date_create($vistoriasDespesasList[0]->dt_vistoria);
+                $dt_recibo = $vistoriasDespesasList[0]->dt_vistoria;
                 $vistoriasDespesasDisponivelList = $this->service->vistoriasDespesasDisponivelList(
-                    date_format($dt_recibo, 'Y-d-m'),
+                    $dt_recibo,
                     $request->post("medicao_id"),
                     $request->post("fiscal_id"),
                 );
+
                 return [
                     'modal' => true,
                     'vistoriasDespesas' => $vistoriasDespesasList,

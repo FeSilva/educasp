@@ -323,47 +323,47 @@ class MedicaoService
 
         if (!empty($despesa_id)) {
             return DB::select("SELECT 
-                    despesas.n_recibo as n_recibo,
-                    despesas.dt_recibo as data_recibo,
-                    despesas.amount as valor,
-                    despesas.type as tipo_despesa,
-                    vistorias.id as id,
-                    tipo.vistoria_tipo_id AS tipo_id,
-                    vistorias.codigo AS codigo,
-                    tipo.name AS tipo_vistoria,
-                    predios.name as escola,
-                    date_format(vistorias.dt_vistoria, '%d/%m/%Y') as dt_vistoria
-                FROM despesas 
-                    INNER JOIN despesas_vistorias AS pivot ON pivot.despesa_id = despesas.id
-                    INNER JOIN vistorias ON (vistorias.id = pivot.vistoria_id AND vistorias.tipo_id = pivot.type_id)
-                    INNER join pis on pis.id = vistorias.pi_id
-                    INNER JOIN predios on predios.id = pis.id_predio
+                despesas.n_recibo as n_recibo,
+                despesas.dt_recibo as data_recibo,
+                despesas.amount as valor,
+                despesas.type as tipo_despesa,
+                vistorias.id as id,
+                tipo.vistoria_tipo_id AS tipo_id,
+                vistorias.codigo AS codigo,
+                tipo.name AS tipo_vistoria,
+                predios.name as escola,
+                vistorias.dt_vistoria as dt_vistoria 
+                    FROM vistorias 
+                    INNER JOIN despesas_vistorias AS dp_vistorias ON (dp_vistorias.vistoria_id = vistorias.id AND dp_vistorias.type_id = vistorias.tipo_id)
+                    INNER JOIN despesas ON despesas.id = dp_vistorias.despesa_id
                     INNER JOIN vistoria_tipos AS tipo ON tipo.vistoria_tipo_id = vistorias.tipo_id
-                WHERE despesas.id = '{$despesa_id}'
-
-                UNION
-
-                SELECT 
-                    despesas.n_recibo as n_recibo,
-                    despesas.dt_recibo as data_recibo,
-                    despesas.amount as valor,
-                    despesas.type as tipo_despesa,
-                    multiplas.id as id,
-                    tipo.vistoria_tipo_id AS tipo_id,
-                    CASE 
-                    when multiplas.cod_pi IS NULL THEN predios.codigo
-                    ELSE multiplas.cod_pi
-                    END AS codigo,
-                    tipo.name AS tipo_vistoria,
-                    predios.name as escola,
-                    date_format(multiplas.dt_vistoria, '%d/%m/%Y') as dt_vistoria
-                FROM despesas 
-                    INNER JOIN despesas_vistorias AS pivot ON pivot.despesa_id = despesas.id
-                    INNER JOIN vistorias_multiplas AS multiplas ON (multiplas.id = pivot.vistoria_id AND multiplas.tipo_id = pivot.type_id)
-                    LEFT join pis on pis.id = multiplas.pi_id
-                    LEFT JOIN predios on predios.id = multiplas.predio_id
-                    INNER JOIN vistoria_tipos AS tipo ON tipo.vistoria_tipo_id = multiplas.tipo_id
-                WHERE despesas.id = '{$despesa_id}'
+                    INNER JOIN pis ON pis.id = vistorias.pi_id
+                    INNER JOIN predios ON predios.id = pis.id_predio
+                    WHERE despesas.id = '{$despesa_id}'
+                    
+                UNION 
+                
+                    SELECT 
+                            despesas.n_recibo as n_recibo,
+                despesas.dt_recibo as data_recibo,
+                despesas.amount as valor,
+                despesas.type as tipo_despesa,
+                vistorias_multiplas.id as id,
+                tipo.vistoria_tipo_id AS tipo_id,
+                CASE 
+                        when vistorias_multiplas.cod_pi IS NULL THEN predios.codigo
+                        ELSE vistorias_multiplas.cod_pi
+                END AS codigo,
+                tipo.name AS tipo_vistoria,
+                predios.name as escola,
+                vistorias_multiplas.dt_vistoria as dt_vistoria 
+                    FROM vistorias_multiplas
+                    INNER JOIN despesas_vistorias AS dp_vistorias ON (dp_vistorias.vistoria_id = vistorias_multiplas.id AND dp_vistorias.type_id = vistorias_multiplas.tipo_id)
+                    INNER JOIN despesas ON despesas.id = dp_vistorias.despesa_id
+                    INNER JOIN vistoria_tipos AS tipo ON tipo.vistoria_tipo_id = vistorias_multiplas.tipo_id
+                    left JOIN pis ON pis.id = vistorias_multiplas.pi_id
+                    INNER JOIN predios ON (predios.id = pis.id_predio OR predios.id = vistorias_multiplas.predio_id)
+                    WHERE despesas.id = '{$despesa_id}'
             ");
         } else {
             return DB::select("SELECT 
@@ -372,7 +372,7 @@ class MedicaoService
                     vistorias.codigo AS codigo,
                     tipos.name AS tipo_vistoria,
                     predios.name as escola,
-                    date_format(vistorias.dt_vistoria, '%d/%m/%Y') as dt_vistoria
+                    vistorias.dt_vistoria as dt_vistoria
                 FROM vistorias 
                     inner join pis on pis.id = vistorias.pi_id
                     INNER JOIN predios on predios.id = pis.id_predio
@@ -395,7 +395,7 @@ class MedicaoService
                     END AS codigo,
                     tipos.name AS tipo_vistoria,
                     predios.name as escola,
-                        date_format(vistorias_multiplas.dt_vistoria, '%d/%m/%Y') as dt_vistoria
+                        vistorias_multiplas.dt_vistoria as dt_vistoria
                 FROM vistorias_multiplas
                     LEFT join pis on pis.id = vistorias_multiplas.pi_id
                     LEFT JOIN predios on predios.id = vistorias_multiplas.predio_id
@@ -417,12 +417,13 @@ class MedicaoService
      **/
     public function vistoriasDespesasDisponivelList($dt_recibo, $medicao_id, $fiscal_id, $despesa_id = null)
     {
-            return DB::select("SELECT 
+            
+        return DB::select("SELECT 
                     vistorias.id as id,
                     vistorias.codigo as codigo,
                     tipos.name AS tipo_vistoria,
                     tipos.vistoria_tipo_id AS tipo_id,
-                    date_format(vistorias.dt_vistoria, '%d/%m/%Y') as dt_vistoria,
+                    vistorias.dt_vistoria as dt_vistoria,
                     predios.name as escola 
                 FROM vistorias 
                     INNER join pis on pis.id = vistorias.pi_id
@@ -448,7 +449,7 @@ class MedicaoService
                     END AS codigo,
                     tipos.name AS tipo_vistoria,
                     tipos.vistoria_tipo_id AS tipo_id,
-                    date_format(multiplas.dt_vistoria, '%d/%m/%Y') as dt_vistoria,
+                    multiplas.dt_vistoria as dt_vistoria,
                     predios.name as escola 
                 FROM vistorias_multiplas AS multiplas
                     LEFT join pis on pis.id = multiplas.pi_id
@@ -607,7 +608,7 @@ class MedicaoService
         SUM(valorDisponivel) AS valor_disponivel,
         sum(TotalPendentes) AS total_pendente,
         SUM(valorPendentes) AS valor_pendente,
-        despesas as total_despesas
+        SUM(despesas) as total_despesas
               FROM (
               SELECT 
               users.id AS fiscal_id,
@@ -649,7 +650,7 @@ class MedicaoService
               INNER JOIN vistoria_tipos ON vistoria_tipos.vistoria_tipo_id = vistorias.tipo_id
               INNER JOIN users ON users.id = vistorias.cod_fiscal_pi
               LEFT JOIN medicao ON medicao.medicao_id = vistorias.medicao_id
-              LEFT JOIN despesas  ON despesas.fiscal_id = vistorias.cod_fiscal_pi
+              LEFT JOIN despesas  ON (despesas.fiscal_id = vistorias.cod_fiscal_pi AND despesas.medicao_id = vistorias.medicao_id)
               GROUP by Fiscal
               
               UNION 
@@ -694,7 +695,7 @@ class MedicaoService
               INNER JOIN users ON users.id = vistorias_multiplas.fiscal_user_id
               INNER JOIN vistoria_tipos ON vistoria_tipos.vistoria_tipo_id = vistorias_multiplas.tipo_id
               LEFT JOIN medicao ON medicao.medicao_id = vistorias_multiplas.medicao_id
-              LEFT JOIN despesas  ON despesas.fiscal_id = vistorias_multiplas.fiscal_user_id
+              LEFT JOIN despesas  ON (despesas.fiscal_id = vistorias_multiplas.fiscal_user_id AND despesas.medicao_id = vistorias_multiplas.medicao_id)
               GROUP by Fiscal
               ) t
               GROUP BY fiscal_name");

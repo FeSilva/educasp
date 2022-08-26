@@ -311,7 +311,7 @@
                 ])
                 @endcomponent
                 @component('components._card', [
-                    'title' => 'Vistorias - Fiscalização',
+                    'title' => 'Vistorias',
                 ])
                     @slot('body')
                         <div class="col-12" id="row_vistorias_despesas">
@@ -415,6 +415,7 @@
                                     ])
                                         @slot('thead')
                                             <th>#</th>
+                                            <th>Tipo de Vistorias</th>
                                             <th>Nome da Escola</th>
                                             <th>Código</th>
                                             <th>Data da Vistoria</th>
