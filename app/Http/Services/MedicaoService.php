@@ -607,8 +607,7 @@ class MedicaoService
         sum(TotalDisponivel) AS total_disponivel,
         SUM(valorDisponivel) AS valor_disponivel,
         sum(TotalPendentes) AS total_pendente,
-        SUM(valorPendentes) AS valor_pendente,
-        SUM(despesas) as total_despesas
+        SUM(valorPendentes) AS valor_pendente
               FROM (
               SELECT 
               users.id AS fiscal_id,
@@ -641,11 +640,7 @@ class MedicaoService
                   CASE 
                       WHEN (vistorias.medicao_id IS NULL OR vistorias.medicao_id = 0) AND vistorias.dt_vistoria <= '$medicao[dt_fim]' AND vistorias.status NOT IN ('cadastro')   THEN  vistoria_tipos.price
                       ELSE 0
-                  end) AS valorPendentes,
-                    CASE 
-                        WHEN despesas.medicao_id ='$medicao_id' and despesas.fiscal_id = vistorias.cod_fiscal_pi then despesas.amount 
-                        ELSE 0
-                    END as despesas
+                  end) AS valorPendentes
               FROM vistorias 
               INNER JOIN vistoria_tipos ON vistoria_tipos.vistoria_tipo_id = vistorias.tipo_id
               INNER JOIN users ON users.id = vistorias.cod_fiscal_pi
@@ -686,11 +681,8 @@ class MedicaoService
                   CASE 
                       WHEN (vistorias_multiplas.medicao_id IS NULL OR vistorias_multiplas.medicao_id = 0) AND vistorias_multiplas.dt_vistoria <= '$medicao[dt_fim]' AND vistorias_multiplas.status NOT IN ('cadastro')   THEN  vistoria_tipos.price
                       ELSE 0
-                  end) AS valorPendentes,
-                    CASE 
-                        WHEN despesas.medicao_id ='$medicao_id' and despesas.fiscal_id = vistorias_multiplas.fiscal_user_id then despesas.amount 
-                        ELSE 0
-                    END as despesas
+                  end) AS valorPendentes
+                
               FROM vistorias_multiplas
               INNER JOIN users ON users.id = vistorias_multiplas.fiscal_user_id
               INNER JOIN vistoria_tipos ON vistoria_tipos.vistoria_tipo_id = vistorias_multiplas.tipo_id
@@ -712,7 +704,7 @@ class MedicaoService
         try {
             foreach ($data as $key => $fiscal) {
                 $validateStatus = $this->medicaoFiscaisModel->where('medicao_id', $medicao_id)->where('fiscal_id', $fiscal->fiscal_id)->first();
-            
+                $amount_despesas = DB::SELECT("SELECT sum(amount) as amount FROM despesas WHERE medicao_id = '$medicao_id' AND fiscal_id = '$fiscal->fiscal_id'");
                 $data = [
                     'medicao_id' => $medicao_id,
                     'fiscal_id' => $fiscal->fiscal_id,
@@ -723,9 +715,10 @@ class MedicaoService
                     'valor_disponivel' => $fiscal->valor_disponivel,
                     'total_pendente' => $fiscal->total_pendente,
                     'valor_pendente' => $fiscal->valor_pendente,
-                    'despesas' => $fiscal->total_despesas,
+                    'despesas' => $amount_despesas[0]->amount,
                     'status' => $validateStatus->status ?? 'I'
                 ];
+
                 $this->medicaoFiscaisModel->updateOrCreate(['medicao_id' => $medicao_id,'fiscal_id' => $fiscal->fiscal_id], $data);
             }
             return true;

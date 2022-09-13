@@ -45,7 +45,11 @@
                                     <td>{{ number_format($tipo->price, 2, ",",".") }}</td>
                                     <td>{{ $tipo->amount_to_receive }}</td>
                                     <td>{{ $status }}</td>
-                                    <td></td>
+                                    <td>
+                                        <a href="{{ route('vistorias.tipo.edit', ['tipo_id' => $tipo->vistoria_tipo_id]) }}" alt="editar tipo de vistoria">
+                                            <img src="{{asset("paper")}}/img/icons/edit.png"  width="30px">
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         @endslot

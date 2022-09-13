@@ -206,7 +206,7 @@ class MedicaoRepository
             pis.codigo AS codigo_pi,
             predios.name AS name_predio,
             vistorias.dt_vistoria AS data_Vistoria,
-            tipos.price as amount
+            tipos.amount_to_receive as amount_medicao
             FROM vistorias
             INNER JOIN vistoria_tipos AS tipos ON tipos.vistoria_tipo_id = vistorias.tipo_id
             INNER JOIN pis ON pis.id = vistorias.pi_id
@@ -224,7 +224,7 @@ class MedicaoRepository
             pis.codigo AS codigo_pi,
             predios.name AS name_predio,
             vistorias_multiplas.dt_vistoria AS data_Vistoria,
-            tipos.price as amount
+            tipos.amount_to_receive as amount_medicao
             FROM vistorias_multiplas
             INNER JOIN vistoria_tipos AS tipos ON tipos.vistoria_tipo_id = vistorias_multiplas.tipo_id
             LEFT JOIN pis ON pis.id = vistorias_multiplas.pi_id
@@ -240,7 +240,7 @@ class MedicaoRepository
                 'codigo' => $vistoria->codigo_pi,
                 'predio' => $vistoria->name_predio,
                 'data_vistoria' => $vistoria->data_Vistoria,
-                'amount' => $vistoria->amount
+                'amount' => $vistoria->amount_medicao
             ];
         }
         return $return;

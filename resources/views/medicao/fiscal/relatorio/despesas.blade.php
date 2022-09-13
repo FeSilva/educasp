@@ -60,6 +60,9 @@
         </div>
     </div>
 
+    @php
+        $totalGeral = 0;
+    @endphp
     @foreach ($listagem as $key => $results)
     @php 
         $count = 1;
@@ -80,7 +83,7 @@
                         <thead>  
                             <tr>
                                 @foreach($results['table']['theads'] as $keyTitles => $titles)
-                                    @if ($titles == 'Prédio')
+                                    @if ($titles == 'Prédio' OR $titles == 'Tipo de Despesa')
                                         <th colspan="2">{{ $titles }}</th>
                                     @else 
                                         <th >{{ $titles }}</th>
@@ -91,9 +94,9 @@
                         <tbody>
                             
                             @foreach($results['table']['tbody'] as $keyBody => $column)
-
-                                @if ($key == 'despesas')
+                                @if ($key == 'despesas' and !empty($column->type) and $column->type != '')
                                     @php 
+                                        $totalGeral += $column->amount;
                                         $qtdTotal++;
                                         $amountTotal += $column->amount;
                                         $created_at = date_create($column->created_at);
@@ -106,6 +109,7 @@
                                     </tr>
                                 @else
                                     @php 
+                                        $totalGeral += $column->amount;
                                         $qtdTotal++;
                                         $amountTotal += $column->amount;
                                     @endphp
@@ -119,17 +123,36 @@
                             @endforeach
                         </tbody>
                         <tfoot>
-                            <tr>
-                                <td></td>
-                                <td align='center'><strong>Total:</strong></td>
-                                <td><strong>{{ $qtdTotal }}</strong></td>
-                                <td><strong>R$ {{ number_format($amountTotal, 2, ",", ".") }}</strong></td>
-                            </tr>
+                        
+                                <tr>
+                                    <td colspan='2'></td>
+                                    <td align='center'><strong>Total:</strong></td>
+                                    <td><strong>{{ $qtdTotal }}</strong></td>
+                                    <td><strong>R$ {{ number_format($amountTotal, 2, ",", ".") }}</strong></td>
+                                </tr>
+                
                         </tfoot>
                     </table>
                     <hr>
                 </div>
             </div>
     @endforeach
+
+
+    <table class="table" id="customers" style="
+                                padding: 0.5rem;
+                                text-align: center;">
+        <thead>  
+            <tr>
+                <th colspan="2">Resumo Geral de Medições + Despesas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Total:</td>
+                <td>{{ number_format($totalGeral, 2, ",", ".") }}</td>
+            </tr>
+        </tbody>
+    <tbody>
 </body>
 </html>

@@ -4,6 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Educa SP - Relatório de Medição </title>
     <style>
+        body{
+            font-size:10px;
+        }
         table {
             table-layout: fixed;
             width: 100%;
@@ -99,7 +102,7 @@
                             @foreach($tbody['values'] as $key => $column)
                         
                                 @php 
-                                    $amountTotal += 43.00; 
+                                    $amountTotal += $tbody['values'][0]['amount']; 
                                     $dt_vistoria = date_create($column['data_vistoria']);
                                 @endphp
                                 <tr>

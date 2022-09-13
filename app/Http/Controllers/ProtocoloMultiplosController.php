@@ -228,7 +228,7 @@ class ProtocoloMultiplosController extends Controller
                     $dt_vistoria = date("d.m.y", strtotime($aVistoria['dt_vistoria']));
                     $name_archive = 'ST_'.str_replace("/",".",$aVistoria['cod_pi']).'_'.$dt_vistoria;
                     $pdf->Output( storage_path().'/app/public/archives/seguranca_trabalho/'.$name_archive.".pdf", "F");
-                    VistoriasMultiplas::find('id', $id_vistoria)->update(['status' => 'Aprovado','merge' => 1]);
+                    VistoriasMultiplas::find($id_vistoria)->update(['status' => 'Aprovado', 'merge' => 1]);
 
                 } else {
                     //Excluí a vistoria que foi desmarcada.. ela irá sumir, validar o que irá ocorre com status dela.

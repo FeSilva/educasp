@@ -9,5 +9,8 @@ class VistoriaTipo extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+    protected $primaryKey = 'vistoria_tipo_id';
+
     protected $fillable = ['name', 'sigla','description','price','amount_to_receive', 'status'];
 }

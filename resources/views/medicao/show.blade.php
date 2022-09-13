@@ -48,47 +48,49 @@
                                     $totalPendentes = 0;
                                 @endphp
                                 @foreach($medicaoFiscais as $fiscais)
-                                    @php 
-                                        $totalMedido += $fiscais->total_medido;
-                                        $totalDisponivel += $fiscais->total_disponivel;
-                                        $totalValorMedido += $fiscais->valor_medido;
-                                        $totalDespesas += $fiscais->despesas ?? 0;
-                                        $totalPendentes += $fiscais->total_pendente;
-                                    @endphp
-                                    <tr>
-                                        <td>{{ $fiscais->medicao_fiscal_id }}</td>
-                                        <td><span class="badge" style="font-size:12px;">{{ $fiscais->fiscal_name }}</span></td>
-                                        <td align="center"><span class="badge" style="font-size:12px;">{{ $fiscais->total_medido }}</span></td>
-                                        <td align="center"><span class="badge" style="font-size:12px;">{{ $fiscais->total_disponivel }}</span></td>
-                                        <td align="center"><span class="badge me-1 rounded-pill">{{ $fiscais->total_pendente }}</span></td>
-                                        <td align="center"><span class="badge me-1 rounded-pill">R$ {{ number_format($fiscais->valor_medido, 2, ",", ".") }}</span></td>
-                                        <td align="center"><span class="badge me-1 rounded-pill">{{ number_format($fiscais->despesas, 2, ',', ".") }}</span></td>
-                                        
-                                        <td align="center" id="statuspan_{{ $fiscais->medicao_fiscal_id }}"><span class="badge me-1 bg-4" > {{  $fiscais->status == 'I' ? 'Iniciada' : 'Finalizada' }}</span></td>
-                                        
-                                        <td>
+                                    @if ($fiscais->total_medido > 0 )
+                                        @php 
+                                            $totalMedido += $fiscais->total_medido;
+                                            $totalDisponivel += $fiscais->total_disponivel;
+                                            $totalValorMedido += $fiscais->valor_medido;
+                                            $totalDespesas += $fiscais->despesas ?? 0;
+                                            $totalPendentes += $fiscais->total_pendente;
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $fiscais->medicao_fiscal_id }}</td>
+                                            <td><span class="badge" style="font-size:12px;">{{ $fiscais->fiscal_name }}</span></td>
+                                            <td align="center"><span class="badge" style="font-size:12px;">{{ $fiscais->total_medido }}</span></td>
+                                            <td align="center"><span class="badge" style="font-size:12px;">{{ $fiscais->total_disponivel }}</span></td>
+                                            <td align="center"><span class="badge me-1 rounded-pill">{{ $fiscais->total_pendente }}</span></td>
+                                            <td align="center"><span class="badge me-1 rounded-pill">R$ {{ number_format($fiscais->valor_medido, 2, ",", ".") }}</span></td>
+                                            <td align="center"><span class="badge me-1 rounded-pill">{{ number_format($fiscais->despesas, 2, ',', ".") }}</span></td>
                                             
-                                            <img src="{{asset("paper")}}/img/icons/view.png"
-                                            style="cursor: pointer;"
-                                            onclick="window.location='{{route('medicao.fiscal.show',['medicao_id' => $fiscais->medicao_id, 'fiscal_id' => $fiscais->fiscal_id, 'status' => $fiscais->status])}}'"
-                                            width="20px">
-                                        
+                                            <td align="center" id="statuspan_{{ $fiscais->medicao_fiscal_id }}"><span class="badge me-1 bg-4" > {{  $fiscais->status == 'I' ? 'Iniciada' : 'Finalizada' }}</span></td>
                                             
-                                            @if ($fiscais->status == 'F')
-                                                <img src="{{asset("paper")}}/img/icons/download.png"
+                                            <td>
+                                                
+                                                <img src="{{asset("paper")}}/img/icons/view.png"
                                                 style="cursor: pointer;"
-                                                onclick="download('{{ $fiscais->medicao_id }}','{{ $fiscais->fiscal_id }}')"
-                                                //window.location='{{route('medicao.fiscal.relatorio.medicoes',['medicao_id' => $fiscais->medicao_id, 'fiscal_id' => $fiscais->fiscal_id])}}'
+                                                onclick="window.location='{{route('medicao.fiscal.show',['medicao_id' => $fiscais->medicao_id, 'fiscal_id' => $fiscais->fiscal_id, 'status' => $fiscais->status])}}'"
                                                 width="20px">
-                                            @else
-                                               
-                                                <img src="{{asset("paper")}}/img/icons/cadeado.png"
-                                                style="cursor: pointer;"
-                                                onclick="alterarStatus('{{ $fiscais->medicao_fiscal_id }}')"
-                                                width="20px">
-                                            @endif
                                             
-                                    </tr>
+                                                
+                                                @if ($fiscais->status == 'F')
+                                                    <img src="{{asset("paper")}}/img/icons/download.png"
+                                                    style="cursor: pointer;"
+                                                    onclick="download('{{ $fiscais->medicao_id }}','{{ $fiscais->fiscal_id }}')"
+                                                    //window.location='{{route('medicao.fiscal.relatorio.medicoes',['medicao_id' => $fiscais->medicao_id, 'fiscal_id' => $fiscais->fiscal_id])}}'
+                                                    width="20px">
+                                                @else
+                                                
+                                                    <img src="{{asset("paper")}}/img/icons/cadeado.png"
+                                                    style="cursor: pointer;"
+                                                    onclick="alterarStatus('{{ $fiscais->medicao_fiscal_id }}')"
+                                                    width="20px">
+                                                @endif
+                                                
+                                        </tr>
+                                    @endif
                                 @endforeach
                             @endslot
                             @slot('tfoot')

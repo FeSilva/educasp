@@ -527,11 +527,14 @@
             $("#close-disponiveis").click(function (){
                 document.location.reload(true);
             });
-            $("#amount").mask('#.##0,00', {
+            $("#amount").mask('#,##0.00', {
                 reverse: true
             });
-
-            $("#amount_despesas").mask('#.##0,00', {
+            amount_update
+            $("#amount_update").mask('#,##0.00', {
+                reverse: true
+            });
+            $("#amount_despesas").mask('#,##0.00', {
                 reverse: true
             });
         }); 

@@ -97,6 +97,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('vistorias/tipos')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'VistoriasTiposController@index')->name('vistorias.tipo.list');
         Route::get('/create', 'VistoriasTiposController@create')->name('vistorias.tipo.create');
+        Route::get('/edit/{tipo_id}', 'VistoriasTiposController@edit')->name('vistorias.tipo.edit');
 
         Route::post('/store', 'VistoriasTiposController@store')->name('vistorias.tipo.store');
 

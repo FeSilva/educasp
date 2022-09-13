@@ -21,7 +21,6 @@ class VistoriasTiposController extends Controller
     public function index()
     {
         $tipos = $this->model->get();
-
         return view("vistorias.tipos.index", compact('tipos'));
     }
 
@@ -65,7 +64,8 @@ class VistoriasTiposController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tipo = $this->model->find($id);
+        return view("vistorias.tipos.edit", compact("tipo"));
     }
 
     /**
